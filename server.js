@@ -10,10 +10,10 @@ const local = process.env.LOCAL == "true";
 const express = require("express");
 
 app.prepare().then(() => {
-    const server = express();
-    server.all("*", (req, res) => handle(req, res));
-    server.listen(port, (err) => {
-        if (err) throw err;
-        console.log(`> Ready on ${process.env.SITE}`);
-    });
+  const server = express();
+  server.all("*", (req, res) => handle(req, res));
+  server.listen(port, (err) => {
+    if (err) throw err;
+    console.log(`> Ready on ${process.env.SITE}`);
+  });
 });
