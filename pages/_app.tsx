@@ -2,14 +2,13 @@ import "../styles/globals.css";
 import Layout from "../src/layout/layout";
 import { NextComponentType, NextPageContext } from "next";
 import ThemeProvdiers from "../src/layout/Providers/ThemeProviders";
-// import AuthProvider from "../src/firebase/provider";
-import { getAuth } from "@firebase/auth";
+import React from "react";
+import AuthProvider from "../src/firebase/provider";
 import { useAuthState } from "react-firebase-hooks/auth";
-import React, { ReactElement } from "react";
-import { useUser } from "@auth0/nextjs-auth0";
-import { UserProvider } from "@auth0/nextjs-auth0";
-import { useRouter } from "next/router";
-import { UserProfile, withPageAuthRequired } from "@auth0/nextjs-auth0";
+import { getAuth } from "@firebase/auth";
+
+// import { UserProvider } from "@auth0/nextjs-auth0";
+// import { useUser } from "@auth0/nextjs-auth0";
 
 type ComponentType = NextComponentType<NextPageContext, any, {}> & {
   title: string;
@@ -20,16 +19,31 @@ interface Props {
   Component: ComponentType;
   pageProps: any;
 }
+const Auth = ({ children }: { children: React.ReactNode }) => {
+  const [user, loading] = useAuthState(getAuth());
+  if (loading) {
+    return <>Loading...</>;
+  } else if (!user) {
+    return <>SignUp</>;
+  }
+  return <div>{children}</div>;
+};
 
 function MyApp({ Component, pageProps }: Props) {
   return (
-    <UserProvider>
+    <AuthProvider>
       <ThemeProvdiers>
         <Layout title={Component.title}>
-          <Component {...pageProps} />
+          {Component.auth ? (
+            <Auth>
+              <Component {...pageProps} />
+            </Auth>
+          ) : (
+            <Component {...pageProps} />
+          )}
         </Layout>
       </ThemeProvdiers>
-    </UserProvider>
+    </AuthProvider>
   );
 }
 export default MyApp;
