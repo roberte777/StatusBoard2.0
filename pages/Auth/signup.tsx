@@ -1,12 +1,12 @@
 import React, { useState } from "react";
-import { TextField, Button, FormControl } from "@mui/material";
+import Link from "next/link";
+import { TextField, Button, Typography } from "@mui/material";
 import { styled } from "@mui/material/styles";
 import {
   createUserWithEmailAndPassword,
   getAuth,
   updateProfile
 } from "firebase/auth";
-import { UserContext } from "@auth0/nextjs-auth0";
 import { useAuthState } from "react-firebase-hooks/auth";
 
 const SignupForm = styled("form")(({ theme }) => ({
@@ -98,6 +98,16 @@ const Form = () => {
           Signup
         </Button>
       </div>
+      <Typography>
+        Already have an account?{" "}
+        <Link href="/Auth/login">
+          <a style={{ textDecoration: "none" }}>
+            <Button variant="contained" color="primary">
+              Login
+            </Button>
+          </a>
+        </Link>
+      </Typography>
     </SignupForm>
   );
 };

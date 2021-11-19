@@ -1,5 +1,6 @@
 import React, { useState } from "react";
-import { TextField, Button, FormControl } from "@mui/material";
+import Link from "next/link";
+import { TextField, Button, Typography } from "@mui/material";
 import { styled } from "@mui/material/styles";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { auth } from "../../src/firebase/provider";
@@ -73,6 +74,16 @@ const Form = () => {
           Login
         </Button>
       </div>
+      <Typography>
+        Don't have an account?{" "}
+        <Link href={"/Auth/signup"}>
+          <a style={{ textDecoration: "none" }}>
+            <Button variant="contained" color="primary">
+              SignUp
+            </Button>
+          </a>
+        </Link>
+      </Typography>
     </LoginForm>
   );
 };

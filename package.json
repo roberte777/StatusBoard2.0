@@ -2,6 +2,12 @@
   "name": "template",
   "version": "0.1.0",
   "private": true,
+  "baseUrl": ".",
+  "paths": {
+    "@/*": [
+      "./src/*"
+    ]
+  },
   "scripts": {
     "dev": "cross-env NODE_ENV=development node server.js",
     "build": "next build",
