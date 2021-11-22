@@ -36,7 +36,7 @@ const columns: GridColDef[] = [
   },
   {
     field: "admin",
-    headername: "Admin",
+    headerName: "Admin",
     type: "boolean",
     renderCell: (params: GridCellParams) =>
       params.value ? (
