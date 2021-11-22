@@ -1,24 +1,13 @@
 import React, { useEffect, useState } from "react";
 import { User } from "@firebase/auth";
-import {
-  Box,
-  Tabs,
-  Tab,
-  Container,
-  CircularProgress,
-  Button
-} from "@mui/material";
-import {
-  DataGrid,
-  GridApi,
-  GridCellParams,
-  GridCellValue,
-  GridColDef,
-  GridRenderCellParams,
-  GridSelectionModel
-} from "@mui/x-data-grid";
+import { Container, CircularProgress, Button, Checkbox } from "@mui/material";
+import { DataGrid, GridCellParams, GridColDef } from "@mui/x-data-grid";
 import CheckIcon from "@mui/icons-material/Check";
 import ClearIcon from "@mui/icons-material/Clear";
+import FilledButton from "@/components/filledButton";
+interface roleUser extends User {
+  customClaims?: { admin?: boolean; employee: boolean };
+}
 
 const columns: GridColDef[] = [
   { field: "email", headerName: "Email", width: 300 },
@@ -51,25 +40,38 @@ export default function index() {
   const [users, setUsers] = useState<[] | User[]>([]);
   const [dataLoading, setDataLoading] = useState(false);
   const [value, setValue] = React.useState(0);
-  const [selectionModel, setSelectionModel] = useState<GridSelectionModel>([]);
+  const [selectionModel, setSelectionModel] = useState<User[]>([]);
+
+  const editRole = async (remove: boolean, role: "admin" | "employee") => {
+    setDataLoading(true);
+    const resp = await (
+      await fetch("/api/Roles", {
+        method: "POST",
+        body: JSON.stringify({ users: selectionModel, remove, role })
+      })
+    )
+      .json()
+      .then(() => {
+        getData();
+        setSelectionModel([]);
+      });
+  };
   const handleChange = (event: React.SyntheticEvent, newValue: number) => {
     setValue(newValue);
   };
-  function a11yProps(index: number) {
-    return {
-      id: `simple-tab-${index}`,
-      "aria-controls": `simple-tabpanel-${index}`
-    };
-  }
+
+  const getData = async () => {
+    setDataLoading(true);
+    const resp = await (await fetch("/api/Users")).json();
+    setUsers(resp);
+    console.log(resp);
+    setDataLoading(false);
+  };
+
   useEffect(() => {
-    const getData = async () => {
-      setDataLoading(true);
-      const resp = await (await fetch("/api/Users")).json();
-      setUsers(resp);
-      setDataLoading(false);
-    };
     getData();
   }, []);
+
   if (dataLoading) {
     return (
       <Container>
@@ -89,22 +91,49 @@ export default function index() {
         <div style={{ flexGrow: 1 }}>
           <DataGrid
             onSelectionModelChange={(newSelectionModel) => {
-              setSelectionModel(newSelectionModel);
+              const selectedRows: User[] = newSelectionModel.map(
+                (model) =>
+                  users.find((user) => user.email === model.toString())!
+              );
+              console.log(selectedRows);
+              setSelectionModel(selectedRows);
             }}
-            selectionModel={selectionModel}
             columns={columns}
-            rows={users.map((user, idx) => {
+            rows={users.map((user: roleUser) => {
               return {
                 ...user,
-                id: idx,
+                id: user.email,
                 employee: user.customClaims?.employee,
                 admin: user.customClaims?.admin
               };
             })}
+            checkboxSelection
           />
         </div>
       </div>
-      {selectionModel.map((e) => JSON.stringify(e))}
+      {selectionModel.length > 0 && (
+        <div
+          style={{
+            marginTop: "10px",
+            display: "flex",
+            justifyContent: "space-evenly"
+          }}
+        >
+          <FilledButton onClick={() => editRole(false, "admin")}>
+            Add Admin
+          </FilledButton>
+          <FilledButton onClick={() => editRole(false, "employee")}>
+            Add Employee
+          </FilledButton>
+          <FilledButton onClick={() => editRole(true, "admin")}>
+            Remove Admin
+          </FilledButton>
+          <FilledButton onClick={() => editRole(true, "employee")}>
+            Remove Employee
+          </FilledButton>
+          <FilledButton>Delete User(s)</FilledButton>
+        </div>
+      )}
     </div>
   );
 }

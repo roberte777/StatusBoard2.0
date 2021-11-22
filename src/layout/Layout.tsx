@@ -134,7 +134,13 @@ export default function ResponsiveDrawer(props: any) {
           <Sidebar setDrawerOpen={setDesktopDrawerOpen} />
         </Drawer>
       </Box>
-      <Box component="main" sx={{ flexGrow: 1, p: 3 }}>
+      <Box
+        component="main"
+        sx={{
+          flexGrow: 1,
+          p: 3
+        }}
+      >
         <Toolbar />
         {children}
       </Box>

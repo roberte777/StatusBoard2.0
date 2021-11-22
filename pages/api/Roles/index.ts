@@ -1,24 +1,36 @@
+import { User } from "@firebase/auth";
 import { Request, Response } from "express";
 import { firebaseAdmin } from "../../../src/firebase/admin";
 export default async (req: Request, res: Response) => {
   const { method } = req;
   const body = JSON.parse(req.body);
-  const { uid, role, remove } = body;
+  const { users, role, remove } = body;
   try {
     switch (method) {
       case "POST":
-        // Get the ID token passed.
-        console.log(role);
         // Verify the ID token and decode its payload.
-        firebaseAdmin.auth().setCustomUserClaims(uid, { [role]: !remove });
+        var bar = new Promise(async (resolve) => {
+          await users.forEach(
+            async (user: User, idx: number, array: User[]) => {
+              const { customClaims: oldCustomClaims } = await firebaseAdmin
+                .auth()
+                .getUser(user.uid);
 
-        // Tell client to refresh token on user.
-        res.end(
-          JSON.stringify({
-            status: "success"
-          })
+              await firebaseAdmin.auth().setCustomUserClaims(user.uid, {
+                ...oldCustomClaims,
+                [role]: !remove
+              });
+              if (idx === array.length - 1) resolve(null);
+            }
+          );
+        });
+        bar.then(() =>
+          res.end(
+            JSON.stringify({
+              status: "success"
+            })
+          )
         );
-
         break;
       default:
         break;
