@@ -7,6 +7,7 @@ import AuthProvider from "../src/firebase/provider";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { getAuth } from "@firebase/auth";
 import { CircularProgress, Container } from "@mui/material";
+import Loading from "@/components/Loading";
 
 // import { UserProvider } from "@auth0/nextjs-auth0";
 // import { useUser } from "@auth0/nextjs-auth0";
@@ -24,11 +25,7 @@ interface Props {
 const Auth = ({ children }: { children: React.ReactNode }) => {
   const [user, loading] = useAuthState(getAuth());
   if (loading) {
-    return (
-      <Container>
-        <CircularProgress />
-      </Container>
-    );
+    return <Loading />;
   } else if (!user) {
     return <>SignUp</>;
   }

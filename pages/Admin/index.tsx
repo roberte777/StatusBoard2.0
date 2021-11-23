@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from "react";
 import { User } from "@firebase/auth";
-import { Container, CircularProgress, Button, Checkbox } from "@mui/material";
 import { DataGrid, GridCellParams, GridColDef } from "@mui/x-data-grid";
 import CheckIcon from "@mui/icons-material/Check";
 import ClearIcon from "@mui/icons-material/Clear";
 import FilledButton from "@/components/filledButton";
+import Loading from "@/components/Loading";
 interface roleUser extends User {
   customClaims?: { admin?: boolean; employee: boolean };
 }
@@ -21,7 +21,7 @@ const columns: GridColDef[] = [
         <CheckIcon color="success" />
       ) : (
         <ClearIcon color="warning" />
-      )
+      ),
   },
   {
     field: "admin",
@@ -32,14 +32,13 @@ const columns: GridColDef[] = [
         <CheckIcon color="success" />
       ) : (
         <ClearIcon color="warning" />
-      )
-  }
+      ),
+  },
 ];
 
 export default function index() {
   const [users, setUsers] = useState<[] | User[]>([]);
   const [dataLoading, setDataLoading] = useState(false);
-  const [value, setValue] = React.useState(0);
   const [selectionModel, setSelectionModel] = useState<User[]>([]);
 
   const editRole = async (remove: boolean, role: "admin" | "employee") => {
@@ -47,7 +46,7 @@ export default function index() {
     const resp = await (
       await fetch("/api/Roles", {
         method: "POST",
-        body: JSON.stringify({ users: selectionModel, remove, role })
+        body: JSON.stringify({ users: selectionModel, remove, role }),
       })
     )
       .json()
@@ -56,15 +55,23 @@ export default function index() {
         setSelectionModel([]);
       });
   };
-  const handleChange = (event: React.SyntheticEvent, newValue: number) => {
-    setValue(newValue);
+  const deleteUsers = async (users: User[]) => {
+    setDataLoading(true);
+    await (
+      await fetch("/api/Users", {
+        method: "DELETE",
+        body: JSON.stringify({
+          users,
+        }),
+      })
+    ).json();
+    getData();
   };
 
   const getData = async () => {
     setDataLoading(true);
     const resp = await (await fetch("/api/Users")).json();
     setUsers(resp);
-    console.log(resp);
     setDataLoading(false);
   };
 
@@ -73,11 +80,7 @@ export default function index() {
   }, []);
 
   if (dataLoading) {
-    return (
-      <Container>
-        <CircularProgress />
-      </Container>
-    );
+    return <Loading />;
   }
   return (
     <div>
@@ -85,7 +88,7 @@ export default function index() {
         style={{
           display: "flex",
           height: "50vh",
-          width: "100%"
+          width: "100%",
         }}
       >
         <div style={{ flexGrow: 1 }}>
@@ -95,7 +98,6 @@ export default function index() {
                 (model) =>
                   users.find((user) => user.email === model.toString())!
               );
-              console.log(selectedRows);
               setSelectionModel(selectedRows);
             }}
             columns={columns}
@@ -104,7 +106,7 @@ export default function index() {
                 ...user,
                 id: user.email,
                 employee: user.customClaims?.employee,
-                admin: user.customClaims?.admin
+                admin: user.customClaims?.admin,
               };
             })}
             checkboxSelection
@@ -116,7 +118,7 @@ export default function index() {
           style={{
             marginTop: "10px",
             display: "flex",
-            justifyContent: "space-evenly"
+            justifyContent: "space-evenly",
           }}
         >
           <FilledButton onClick={() => editRole(false, "admin")}>
@@ -131,7 +133,9 @@ export default function index() {
           <FilledButton onClick={() => editRole(true, "employee")}>
             Remove Employee
           </FilledButton>
-          <FilledButton>Delete User(s)</FilledButton>
+          <FilledButton onClick={() => deleteUsers(selectionModel)}>
+            Delete User(s)
+          </FilledButton>
         </div>
       )}
     </div>

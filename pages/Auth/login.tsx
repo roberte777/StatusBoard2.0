@@ -5,7 +5,8 @@ import { styled } from "@mui/material/styles";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { auth } from "../../src/firebase/provider";
 import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
-
+import Loading from "@/components/Loading";
+import { useRouter } from "next/router";
 const LoginForm = styled("form")(({ theme }) => ({
   display: "flex",
   flexDirection: "column",
@@ -15,41 +16,43 @@ const LoginForm = styled("form")(({ theme }) => ({
 
   "& .MuiTextField-root": {
     margin: theme.spacing(1),
-    width: "300px"
+    width: "300px",
   },
   "& .MuiButtonBase-root": {
-    margin: theme.spacing(2)
-  }
+    margin: theme.spacing(2),
+  },
 }));
 
 const Form = () => {
   // create state variables for each input
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [loggingIn, setLoggingIn] = useState(false);
   const [user, loading] = useAuthState(auth);
+  const router = useRouter();
 
   const handleSubmit = async (e: any) => {
     e.preventDefault();
     try {
-      // const resp = await (
-      //   await fetch(`/api/auth/login`, {
-      //     method: "POST",
-      //     body: JSON.stringify({
-      //       email: email,
-      //       password: password
-      //     })
-      //   })
-      // ).json();
+      setLoggingIn(true);
       const auth = getAuth();
-      await signInWithEmailAndPassword(auth, email, password).catch((error) => {
-        const errorCode = error.code;
-        const errorMessage = error.message;
-        throw { errorCode, errorMessage };
-      });
+      await signInWithEmailAndPassword(auth, email, password)
+        .catch((error) => {
+          const errorCode = error.code;
+          const errorMessage = error.message;
+          throw { errorCode, errorMessage };
+        })
+        .then(() => {
+          setLoggingIn(false);
+          router.back();
+        });
     } catch (err) {
       // console.log(err);
     }
   };
+  if (loading || loggingIn) {
+    return <Loading />;
+  }
 
   return (
     <LoginForm onSubmit={handleSubmit}>
