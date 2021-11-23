@@ -11,7 +11,7 @@ export default function Loading() {
         alignItems: "center",
       }}
     >
-      <CircularProgress />
+      <CircularProgress color="secondary" />
     </Container>
   );
 }
