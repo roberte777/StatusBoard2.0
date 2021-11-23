@@ -1,6 +1,6 @@
 import React from "react";
 import styles from "../../styles/airplaneAnimations.module.css";
-export default function animatedPlane() {
+export default function animatedPlane(props: any) {
   return (
     <div
       style={{
@@ -9,7 +9,8 @@ export default function animatedPlane() {
         padding: 0,
         width: "100%",
         height: "100%",
-        position: "relative"
+        position: "relative",
+        ...props.style
       }}
     >
       <div className={styles.frame}>
