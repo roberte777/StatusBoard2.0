@@ -14,6 +14,7 @@ import { CircularProgress, Container } from "@mui/material";
 type ComponentType = NextComponentType<NextPageContext, any, {}> & {
   title: string;
   auth: boolean;
+  noPadding: boolean;
 };
 
 interface Props {
@@ -38,7 +39,7 @@ function MyApp({ Component, pageProps }: Props) {
   return (
     <AuthProvider>
       <ThemeProvdiers>
-        <Layout title={Component.title}>
+        <Layout title={Component.title} noPadding={Component.noPadding}>
           {Component.auth ? (
             <Auth>
               <Component {...pageProps} />

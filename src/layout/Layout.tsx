@@ -25,7 +25,7 @@ const drawerWidth = 240;
 export default function ResponsiveDrawer(props: any) {
   const theme = useTheme();
   const matches = useMediaQuery(theme.breakpoints.up("md"));
-  const { window, children, title } = props;
+  const { window, children, title, noPadding } = props;
   const [mobileDrawerOpen, setMobileDrawerOpen] = React.useState(false);
   const [desktopDrawerOpen, setDesktopDrawerOpen] = React.useState(true);
   const { toggleColorMode, mode } = useContext(ColorModeContext);
@@ -138,8 +138,9 @@ export default function ResponsiveDrawer(props: any) {
         component="main"
         sx={{
           flexGrow: 1,
-          p: 3
+          p: noPadding ? 0 : 3
         }}
+        className="test"
       >
         <Toolbar />
         {children}

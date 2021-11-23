@@ -25,7 +25,7 @@ export default function animatedPlane(props: any) {
               width="1031.53px"
               height="279.304px"
               viewBox="0 0 1131.53 379.304"
-              enable-background="new 0 0 1131.53 379.304"
+              enableBackground="new 0 0 1131.53 379.304"
               xmlSpace="preserve"
               className={styles.plane}
             >
@@ -51,7 +51,7 @@ export default function animatedPlane(props: any) {
           width="662px"
           height="231px"
           viewBox="0 0 762 331"
-          enable-background="new 0 0 762 331"
+          enableBackground="new 0 0 762 331"
           xmlSpace="preserve"
           className={`cloud big front slowest
             ${styles.cloud}
@@ -76,7 +76,7 @@ S20.866,331,46.607,331h668.787C741.133,331,762,307.942,762,279.5S741.133,228,715
           width="662px"
           height="231px"
           viewBox="0 0 762 331"
-          enable-background="new 0 0 762 331"
+          enableBackground="new 0 0 762 331"
           xmlSpace="preserve"
           className={`cloud distant smaller
             ${styles.cloud}
@@ -101,7 +101,7 @@ S20.866,331,46.607,331h668.787C741.133,331,762,307.942,762,279.5S741.133,228,715
           width="662px"
           height="231px"
           viewBox="0 0 762 331"
-          enable-background="new 0 0 762 331"
+          enableBackground="new 0 0 762 331"
           xmlSpace="preserve"
           className={`${styles.cloud} ${styles.small} ${styles.slow}`}
         >
@@ -123,7 +123,7 @@ S20.866,331,46.607,331h668.787C741.133,331,762,307.942,762,279.5S741.133,228,715
           width="662px"
           height="231px"
           viewBox="0 0 762 331"
-          enable-background="new 0 0 762 331"
+          enableBackground="new 0 0 762 331"
           xmlSpace="preserve"
           className={`cloud distant super-slow massive ${styles.cloud} ${styles.distant} ${styles.superSlow} ${styles.massive}`}
         >
@@ -145,7 +145,7 @@ S20.866,331,46.607,331h668.787C741.133,331,762,307.942,762,279.5S741.133,228,715
           width="662px"
           height="231px"
           viewBox="0 0 762 331"
-          enable-background="new 0 0 762 331"
+          enableBackground="new 0 0 762 331"
           xmlSpace="preserve"
           className={`${styles.slower} ${styles.cloud}`}
         >

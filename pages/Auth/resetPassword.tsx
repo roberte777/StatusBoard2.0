@@ -4,7 +4,11 @@ import { TextField, Button, Typography } from "@mui/material";
 import { styled } from "@mui/material/styles";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { auth } from "../../src/firebase/provider";
-import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
+import {
+  getAuth,
+  sendPasswordResetEmail,
+  signInWithEmailAndPassword
+} from "firebase/auth";
 
 const LoginForm = styled("form")(({ theme }) => ({
   display: "flex",
@@ -30,25 +34,17 @@ const Form = () => {
 
   const handleSubmit = async (e: any) => {
     e.preventDefault();
-    try {
-      // const resp = await (
-      //   await fetch(`/api/auth/login`, {
-      //     method: "POST",
-      //     body: JSON.stringify({
-      //       email: email,
-      //       password: password
-      //     })
-      //   })
-      // ).json();
-      const auth = getAuth();
-      await signInWithEmailAndPassword(auth, email, password).catch((error) => {
+    const auth = getAuth();
+    sendPasswordResetEmail(auth, email)
+      .then(() => {
+        // Password reset email sent!
+        // ..
+      })
+      .catch((error) => {
         const errorCode = error.code;
         const errorMessage = error.message;
-        throw { errorCode, errorMessage };
+        // ..
       });
-    } catch (err) {
-      // console.log(err);
-    }
   };
 
   return (
@@ -61,17 +57,10 @@ const Form = () => {
         value={email}
         onChange={(e) => setEmail(e.target.value)}
       />
-      <TextField
-        label="Password"
-        variant="filled"
-        type="password"
-        required
-        value={password}
-        onChange={(e) => setPassword(e.target.value)}
-      />
+
       <div>
         <Button type="submit" variant="contained" color="primary">
-          Login
+          Send Email
         </Button>
       </div>
       <Typography>
@@ -85,11 +74,11 @@ const Form = () => {
         </Link>
       </Typography>
       <Typography>
-        Forgot Password?
-        <Link href={"/Auth/resetPassword"}>
+        Already have an account?{" "}
+        <Link href="/Auth/login">
           <a style={{ textDecoration: "none" }}>
             <Button variant="contained" color="primary">
-              Reset
+              Login
             </Button>
           </a>
         </Link>

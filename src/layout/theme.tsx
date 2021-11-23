@@ -7,13 +7,15 @@ const generateTheme = (mode: PaletteMode) => ({
     ...(mode === "light"
       ? {
           // palette values for light mode
-          primary: { main: "#007A93" },
-          secondary: { main: "#a2220c" },
+          // primary: { main: "#007A93" },
+          primary: { main: "#ddaa85" },
+          // secondary: { main: "#a2220c" },
+          secondary: { main: "#aa85dd" },
           error: {
             main: "rgb(180,30,30)"
           },
           success: { main: "rgb(22,179,40)" },
-          action: { active: "#007A93" }
+          action: { active: "#00c372" }
         }
       : {
           // palette values for dark mode
@@ -28,6 +30,15 @@ const generateTheme = (mode: PaletteMode) => ({
             secondary: grey[500]
           }
         })
+  },
+  components: {
+    MuiPaper: {
+      styleOverrides: {
+        root: {
+          // backgroundColor: "#dd858c"
+        }
+      }
+    }
   }
 });
 export default generateTheme;
