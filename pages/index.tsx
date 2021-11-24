@@ -11,14 +11,12 @@ export default function index() {
         width: "100%",
         height: "90vh",
         backgroundColor: "#85b9dd",
-        zIndex: -1,
         position: "relative",
       }}
     >
       <Box
         sx={{
           position: "absolute",
-          zIndex: 2,
           top: "50%",
           left: "50%",
           transform: "translate(-50%, -50%)",
@@ -31,15 +29,21 @@ export default function index() {
         <Typography align="center" color="black">
           I fly the stats so you can fly the planes
         </Typography>
-        {/* <Box sx={{ width: "100%", display: "flex", justifyContent: "center" }}> */}
-        <Link href={"/Auth/resetPassword"}>
-          <a style={{ textDecoration: "none" }}>
-            <Button variant="contained" color="primary">
-              Reset
-            </Button>
-          </a>
-        </Link>
-        {/* </Box> */}
+        <Box
+          sx={{
+            width: "100%",
+            display: "flex",
+            justifyContent: "center",
+          }}
+        >
+          <Link href={"/StatusBoard"} passHref>
+            <a>
+              <Button variant="contained" color="primary">
+                Show me the stats
+              </Button>
+            </a>
+          </Link>
+        </Box>
       </Box>
       <div
         style={{
