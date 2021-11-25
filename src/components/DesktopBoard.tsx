@@ -115,14 +115,20 @@ const boardMapping4: boardMapping[] = [
 
 const mappingArr = [boardMapping1, boardMapping2, boardMapping3, boardMapping4];
 
-export default function PlaneBoard({ board }: { board: StatusBoard }) {
+export default function PlaneBoard({
+  board,
+  sx,
+}: {
+  board: StatusBoard;
+  sx?: object;
+}) {
   const [boardOpen, setBoardOpen] = useState<boolean | undefined>(true);
   return (
     <>
       <Accordion
         expanded={boardOpen}
         onChange={() => setBoardOpen(!boardOpen)}
-        sx={{ bgcolor: "secondary.light" }}
+        sx={{ ...sx, bgcolor: "secondary.light" }}
       >
         <AccordionSummary
           expandIcon={<ExpandMoreIcon />}
@@ -162,7 +168,7 @@ export default function PlaneBoard({ board }: { board: StatusBoard }) {
         </AccordionSummary>
         <Grid container>
           {mappingArr.map((mapping) => (
-            <Grid item xs={12} md={3}>
+            <Grid item xs={12} sm={3}>
               <AccordionDetails>
                 <Grid container>
                   {mapping.map((item) => (

@@ -5,8 +5,8 @@ import { styled } from "@mui/system";
 import { onSnapshot } from "firebase/firestore";
 import { StatusBoard, GeneralStatus } from "statusBoard";
 import React, { useEffect, useState } from "react";
-import PlaneBoard from "@/components/PlaneBoard";
-import PlaneBoard2 from "@/components/PlaneBoard2";
+import MobileBoard from "@/components/MobileBoard";
+import DesktopBoard from "@/components/DesktopBoard";
 import { DataGrid, GridColDef } from "@mui/x-data-grid";
 
 const columns: GridColDef[] = [
@@ -85,26 +85,6 @@ const columns: GridColDef[] = [
   },
 ];
 
-const MobileBoard = styled((props: { board: StatusBoard }) => (
-  <PlaneBoard {...props} />
-))(({ theme }) => ({
-  display: "block",
-  [theme.breakpoints.up("sm")]: {
-    display: "none",
-  },
-}));
-const DesktopBoard = styled((props: { board: StatusBoard }) => (
-  <PlaneBoard2 {...props} />
-))(({ theme }) => ({
-  root: {
-    display: "none",
-    [theme.breakpoints.down("lg")]: {
-      display: "none",
-      backgroundColor: "blue",
-    },
-  },
-}));
-
 export default function StatusBoardPage() {
   const [statusBoards, setStatusBoards] = useState<StatusBoard[]>([]);
   useEffect(() => {
@@ -126,8 +106,7 @@ export default function StatusBoardPage() {
         <Paper
           sx={{
             p: "0px 16px",
-            xs: { display: "none" },
-            sm: { display: "block" },
+            display: { xs: "none", sm: "block" },
           }}
         >
           <Grid container>
@@ -147,9 +126,27 @@ export default function StatusBoardPage() {
         </Paper>
       </Grid>
       {statusBoards.map((board: StatusBoard, idx: number) => (
-        <Grid item xs={12} sm={12} key={idx}>
-          <MobileBoard board={board} key={`${board.tailNumber}sm`} />
-          <DesktopBoard board={board} key={board.tailNumber} />
+        <Grid item xs={12} key={idx}>
+          <MobileBoard
+            board={board}
+            key={`${board.tailNumber}sm`}
+            sx={{
+              display: {
+                xs: "block",
+                sm: "none",
+              },
+            }}
+          />
+          <DesktopBoard
+            board={board}
+            key={board.tailNumber}
+            sx={{
+              display: {
+                xs: "none",
+                sm: "block",
+              },
+            }}
+          />
         </Grid>
       ))}
     </Grid>

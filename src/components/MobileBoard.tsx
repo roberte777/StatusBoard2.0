@@ -88,9 +88,15 @@ const boardMapping4: boardMapping[] = [
 
 const mappingArr = [boardMapping1, boardMapping2, boardMapping3, boardMapping4];
 
-export default function PlaneBoard({ board }: { board: StatusBoard }) {
+export default function PlaneBoard({
+  board,
+  sx,
+}: {
+  board: StatusBoard;
+  sx?: object;
+}) {
   return (
-    <Paper sx={{ p: 2 }} elevation={6}>
+    <Paper sx={{ ...sx }} elevation={6}>
       <Typography variant="h4" align="center">
         {board.tailNumber}
       </Typography>
