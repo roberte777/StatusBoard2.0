@@ -23,6 +23,6 @@ const config: Section[][] = [
       link: "/StatusBoard",
     },
   ],
-  [{ title: "Admin", icon: <SecurityIcon />, link: "Admin" }],
+  [{ title: "Admin", icon: <SecurityIcon />, link: "/Admin" }],
 ];
 export default config;
