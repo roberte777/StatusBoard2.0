@@ -1,6 +1,7 @@
 import { Grid, Paper, Typography } from "@mui/material";
 import React from "react";
 import { StatusBoard } from "statusBoard";
+import SwipeableViews from "react-swipeable-views";
 
 type boardMapping = {
   header: string;
@@ -93,22 +94,20 @@ export default function PlaneBoard({ board }: { board: StatusBoard }) {
       <Typography variant="h4" align="center">
         {board.tailNumber}
       </Typography>
-      <Grid container>
+      <SwipeableViews>
         {mappingArr.map((mapping) => (
-          <Grid item xs={12} md={3}>
-            <Grid container>
-              {mapping.map((item) => (
-                <Grid item xs={12}>
-                  {console.log(item)}
-                  <Typography>
-                    {item.header}: {board[item.accessor]}
-                  </Typography>
-                </Grid>
-              ))}
-            </Grid>
+          <Grid container style={Object.assign({})}>
+            {mapping.map((item) => (
+              <Grid item xs={12}>
+                {console.log(item)}
+                <Typography>
+                  {item.header}: {board[item.accessor]}
+                </Typography>
+              </Grid>
+            ))}
           </Grid>
         ))}
-      </Grid>
+      </SwipeableViews>
     </Paper>
   );
 }

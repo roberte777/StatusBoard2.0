@@ -1,6 +1,7 @@
 import { db } from "@/firebase/provider";
 import { collection, query } from "@firebase/firestore";
 import { Grid, Paper } from "@mui/material";
+import { styled } from "@mui/system";
 import { onSnapshot } from "firebase/firestore";
 import { StatusBoard, GeneralStatus } from "statusBoard";
 import React, { useEffect, useState } from "react";
@@ -84,6 +85,26 @@ const columns: GridColDef[] = [
   },
 ];
 
+const MobileBoard = styled((props: { board: StatusBoard }) => (
+  <PlaneBoard {...props} />
+))(({ theme }) => ({
+  display: "block",
+  [theme.breakpoints.up("sm")]: {
+    display: "none",
+  },
+}));
+const DesktopBoard = styled((props: { board: StatusBoard }) => (
+  <PlaneBoard2 {...props} />
+))(({ theme }) => ({
+  root: {
+    display: "none",
+    [theme.breakpoints.down("lg")]: {
+      display: "none",
+      backgroundColor: "blue",
+    },
+  },
+}));
+
 export default function StatusBoardPage() {
   const [statusBoards, setStatusBoards] = useState<StatusBoard[]>([]);
   useEffect(() => {
@@ -102,7 +123,13 @@ export default function StatusBoardPage() {
   return (
     <Grid container spacing={4}>
       <Grid item xs={12}>
-        <Paper sx={{ p: "0px 16px" }}>
+        <Paper
+          sx={{
+            p: "0px 16px",
+            xs: { display: "none" },
+            sm: { display: "block" },
+          }}
+        >
           <Grid container>
             <Grid item xs={3}>
               Tail Number
@@ -120,8 +147,9 @@ export default function StatusBoardPage() {
         </Paper>
       </Grid>
       {statusBoards.map((board: StatusBoard, idx: number) => (
-        <Grid item xs={12} key={idx}>
-          <PlaneBoard2 board={board} key={board.tailNumber} />
+        <Grid item xs={12} sm={12} key={idx}>
+          <MobileBoard board={board} key={`${board.tailNumber}sm`} />
+          <DesktopBoard board={board} key={board.tailNumber} />
         </Grid>
       ))}
     </Grid>
