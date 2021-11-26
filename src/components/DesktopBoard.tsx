@@ -10,92 +10,18 @@ import {
 import MuiAccordionSummary, {
   AccordionSummaryProps,
 } from "@mui/material/AccordionSummary";
-import React, { useState } from "react";
+import React, { Dispatch, useState } from "react";
 import { StatusBoard } from "statusBoard";
 import { ExpandMore as ExpandMoreIcon } from "@mui/icons-material";
+import TextSection from "./TextSection";
+import DateSection from "./DateSection";
+import InitialsSection from "./InitialsSection";
 
 type boardMapping = {
   header: string;
   accessor: string;
+  component: Function;
 };
-
-const boardMapping1: boardMapping[] = [
-  {
-    header: "Departure Date",
-    accessor: "deptDate",
-  },
-  {
-    header: "Departure Time",
-    accessor: "deptTime.seconds",
-  },
-  {
-    header: "Crew",
-    accessor: "crew",
-  },
-  {
-    header: "Fuel",
-    accessor: "fuel",
-  },
-  {
-    header: "C/W",
-    accessor: "cw",
-  },
-];
-const boardMapping2: boardMapping[] = [
-  {
-    header: "Departure Date",
-    accessor: "deptDate2",
-  },
-  {
-    header: "Departure Time",
-    accessor: "deptTime2.seconds",
-  },
-  {
-    header: "Crew",
-    accessor: "crew2",
-  },
-  {
-    header: "Fuel",
-    accessor: "fuel2",
-  },
-  {
-    header: "C/W",
-    accessor: "cw2",
-  },
-];
-const boardMapping3: boardMapping[] = [
-  {
-    header: "Posted",
-    accessor: "posted",
-  },
-  {
-    header: "Fueled",
-    accessor: "fueled",
-  },
-  {
-    header: "Tires Mon & Fri",
-    accessor: "tires",
-  },
-  {
-    header: "Lav",
-    accessor: "lav",
-  },
-];
-const boardMapping4: boardMapping[] = [
-  { header: "Routine Cleaning", accessor: "routine" },
-  {
-    header: "Detailed Cleaning",
-    accessor: "detailed",
-  },
-  {
-    header: "MEL Status",
-    accessor: "MEL",
-  },
-  {
-    header: "Notes",
-    accessor: "notes",
-  },
-];
 
 // const AccordionSummary = styled((props: AccordionSummaryProps) => (
 //   <MuiAccordionSummary
@@ -112,17 +38,221 @@ const boardMapping4: boardMapping[] = [
 //     marginLeft: theme.spacing(1),
 //   },
 // }));
-
-const mappingArr = [boardMapping1, boardMapping2, boardMapping3, boardMapping4];
+// const boardMapping1: boardMapping[] = [
+//   {
+//     header: "Departure Date",
+//     accessor: "deptDate",
+//     component: <DateSection editMode={editMode} />,
+//   },
+//   {
+//     header: "Departure Time",
+//     accessor: "deptTime.seconds",
+//     component: <DateSection editMode={editMode} />,
+//   },
+//   {
+//     header: "Crew",
+//     accessor: "crew",
+//     component: <InitialsSection editMode={editMode} />,
+//   },
+//   {
+//     header: "Fuel",
+//     accessor: "fuel",
+//     component: <TextSection editMode={editMode} />,
+//   },
+//   {
+//     header: "C/W",
+//     accessor: "cw",
+//     component: <InitialsSection editMode={editMode} />,
+//   },
+// ];
+// const boardMapping2: boardMapping[] = [
+//   {
+//     header: "Departure Date",
+//     accessor: "deptDate2",
+//     component: <DateSection editMode={editMode} />,
+//   },
+//   {
+//     header: "Departure Time",
+//     accessor: "deptTime2.seconds",
+//     component: <DateSection editMode={editMode} />,
+//   },
+//   {
+//     header: "Crew",
+//     accessor: "crew2",
+//     component: <InitialsSection editMode={editMode} />,
+//   },
+//   {
+//     header: "Fuel",
+//     accessor: "fuel2",
+//     component: <TextSection editMode={editMode} />,
+//   },
+//   {
+//     header: "C/W",
+//     accessor: "cw2",
+//     component: <InitialsSection editMode={editMode} />,
+//   },
+// ];
+// const boardMapping3: boardMapping[] = [
+//   {
+//     header: "Posted",
+//     accessor: "posted",
+//     component: <DateSection editMode={editMode} />,
+//   },
+//   {
+//     header: "Fueled",
+//     accessor: "fueled",
+//     component: <DateSection editMode={editMode} />,
+//   },
+//   {
+//     header: "Tires Mon & Fri",
+//     accessor: "tires",
+//     component: <DateSection editMode={editMode} />,
+//   },
+//   {
+//     header: "Lav",
+//     accessor: "lav",
+//     component: <DateSection editMode={editMode} />,
+//   },
+// ];
+// const boardMapping4: boardMapping[] = [
+//   {
+//     header: "Routine Cleaning",
+//     accessor: "routine",
+//     component: <DateSection editMode={editMode} />,
+//   },
+//   {
+//     header: "Detailed Cleaning",
+//     accessor: "detailed",
+//     component: <DateSection editMode={editMode} />,
+//   },
+//   {
+//     header: "MEL Status",
+//     accessor: "MEL",
+//     component: <TextSection editMode={editMode} />,
+//   },
+//   {
+//     header: "Notes",
+//     accessor: "notes",
+//     component: <TextSection editMode={editMode} />,
+//   },
+// ];
 
 export default function PlaneBoard({
   board,
+  setStatusBoards,
   sx,
 }: {
   board: StatusBoard;
+  setStatusBoards: Dispatch<React.SetStateAction<StatusBoard[]>>;
   sx?: object;
 }) {
   const [boardOpen, setBoardOpen] = useState<boolean | undefined>(true);
+  const [editMode, setEditMode] = useState<boolean>(false);
+  const boardMapping1: boardMapping[] = [
+    {
+      header: "Departure Date",
+      accessor: "deptDate",
+      component: DateSection,
+    },
+    {
+      header: "Departure Time",
+      accessor: "deptTime.seconds",
+      component: DateSection,
+    },
+    {
+      header: "Crew",
+      accessor: "crew",
+      component: InitialsSection,
+    },
+    {
+      header: "Fuel",
+      accessor: "fuel",
+      component: TextSection,
+    },
+    {
+      header: "C/W",
+      accessor: "cw",
+      component: InitialsSection,
+    },
+  ];
+  const boardMapping2: boardMapping[] = [
+    {
+      header: "Departure Date",
+      accessor: "deptDate2",
+      component: DateSection,
+    },
+    {
+      header: "Departure Time",
+      accessor: "deptTime2.seconds",
+      component: DateSection,
+    },
+    {
+      header: "Crew",
+      accessor: "crew2",
+      component: InitialsSection,
+    },
+    {
+      header: "Fuel",
+      accessor: "fuel2",
+      component: TextSection,
+    },
+    {
+      header: "C/W",
+      accessor: "cw2",
+      component: InitialsSection,
+    },
+  ];
+  const boardMapping3: boardMapping[] = [
+    {
+      header: "Posted",
+      accessor: "posted",
+      component: DateSection,
+    },
+    {
+      header: "Fueled",
+      accessor: "fueled",
+      component: DateSection,
+    },
+    {
+      header: "Tires Mon & Fri",
+      accessor: "tires",
+      component: DateSection,
+    },
+    {
+      header: "Lav",
+      accessor: "lav",
+      component: DateSection,
+    },
+  ];
+  const boardMapping4: boardMapping[] = [
+    {
+      header: "Routine Cleaning",
+      accessor: "routine",
+      component: DateSection,
+    },
+    {
+      header: "Detailed Cleaning",
+      accessor: "detailed",
+      component: DateSection,
+    },
+    {
+      header: "MEL Status",
+      accessor: "MEL",
+      component: TextSection,
+    },
+    {
+      header: "Notes",
+      accessor: "notes",
+      component: TextSection,
+    },
+  ];
+
+  const mappingArr = [
+    boardMapping1,
+    boardMapping2,
+    boardMapping3,
+    boardMapping4,
+  ];
   return (
     <>
       <Accordion
@@ -141,7 +271,7 @@ export default function PlaneBoard({
                 {board.tailNumber}
               </Typography>
             </Grid>
-            <Grid item xs={3}>
+            <Grid item xs={2}>
               <Typography
                 sx={{
                   display: "flex",
@@ -152,7 +282,7 @@ export default function PlaneBoard({
                 {board.deptDate}
               </Typography>
             </Grid>
-            <Grid item xs={3}>
+            <Grid item xs={2}>
               <Typography
                 sx={{
                   display: "flex",
@@ -163,7 +293,27 @@ export default function PlaneBoard({
                 {board.deptDate2}
               </Typography>
             </Grid>
-            {/* <Grid item xs={3}></Grid> */}
+            <Grid
+              item
+              xs={2}
+              sx={{
+                display: "flex",
+                alignItems: "center",
+              }}
+            >
+              <Typography noWrap textOverflow="ellipsis">
+                {board.notes}
+              </Typography>
+            </Grid>
+            <Grid item xs={2}>
+              <Typography
+                sx={{
+                  display: "flex",
+                  alignItems: "center",
+                  height: "100%",
+                }}
+              ></Typography>
+            </Grid>
           </Grid>
         </AccordionSummary>
         <Grid container>
@@ -173,10 +323,12 @@ export default function PlaneBoard({
                 <Grid container>
                   {mapping.map((item) => (
                     <Grid item xs={12}>
-                      {console.log(item)}
-                      <Typography>
-                        {item.header}: {board[item.accessor]}
-                      </Typography>
+                      <item.component
+                        editMode={editMode}
+                        header={item.header}
+                        accessor={item.accessor}
+                        board={board}
+                      />
                     </Grid>
                   ))}
                 </Grid>

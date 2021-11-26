@@ -1,5 +1,12 @@
-import { Grid, Paper, Typography } from "@mui/material";
-import React from "react";
+import {
+  Box,
+  Divider,
+  Grid,
+  MobileStepper,
+  Paper,
+  Typography,
+} from "@mui/material";
+import React, { useState } from "react";
 import { StatusBoard } from "statusBoard";
 import SwipeableViews from "react-swipeable-views";
 
@@ -95,25 +102,38 @@ export default function PlaneBoard({
   board: StatusBoard;
   sx?: object;
 }) {
+  const [activeStep, setActiveStep] = useState(0);
   return (
     <Paper sx={{ ...sx }} elevation={6}>
-      <Typography variant="h4" align="center">
-        {board.tailNumber}
-      </Typography>
-      <SwipeableViews>
-        {mappingArr.map((mapping) => (
-          <Grid container style={Object.assign({})}>
-            {mapping.map((item) => (
-              <Grid item xs={12}>
-                {console.log(item)}
-                <Typography>
-                  {item.header}: {board[item.accessor]}
-                </Typography>
-              </Grid>
-            ))}
-          </Grid>
-        ))}
-      </SwipeableViews>
+      <Box sx={{ pl: 1, pr: 1, pt: 1 }}>
+        <Typography variant="h6">{board.tailNumber}</Typography>
+      </Box>
+      <Divider sx={{ mb: 2 }} />
+      <Box sx={{ pl: 1, pr: 1 }}>
+        <SwipeableViews
+          index={activeStep}
+          onChangeIndex={(step) => setActiveStep(step)}
+        >
+          {mappingArr.map((mapping) => (
+            <Grid container style={Object.assign({})}>
+              {mapping.map((item) => (
+                <Grid item xs={12}>
+                  {console.log(item)}
+                  <Typography>
+                    {item.header}: {board[item.accessor]}
+                  </Typography>
+                </Grid>
+              ))}
+            </Grid>
+          ))}
+        </SwipeableViews>
+        <MobileStepper
+          steps={mappingArr.length}
+          position="static"
+          activeStep={activeStep}
+          sx={{ justifyContent: "center", bgcolor: "transparent" }}
+        />
+      </Box>
     </Paper>
   );
 }

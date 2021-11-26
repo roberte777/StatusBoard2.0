@@ -101,7 +101,7 @@ export default function StatusBoardPage() {
   }, []);
 
   return (
-    <Grid container spacing={4}>
+    <Grid container spacing={1}>
       <Grid item xs={12}>
         <Paper
           sx={{
@@ -113,15 +113,18 @@ export default function StatusBoardPage() {
             <Grid item xs={3}>
               Tail Number
             </Grid>
-            <Grid item xs={3}>
+            <Grid item xs={2}>
               Outbound
             </Grid>
-            <Grid item xs={3}>
+            <Grid item xs={2}>
               Inbound
             </Grid>
-            {/* <Grid item xs={3}>
-              General Info
-            </Grid> */}
+            <Grid item xs={3}>
+              Notes
+            </Grid>
+            <Grid item xs={2}>
+              Actions
+            </Grid>
           </Grid>
         </Paper>
       </Grid>
@@ -135,10 +138,12 @@ export default function StatusBoardPage() {
                 xs: "block",
                 sm: "none",
               },
+              borderRadius: "16px",
             }}
           />
           <DesktopBoard
             board={board}
+            setStatusBoards={setStatusBoards}
             key={board.tailNumber}
             sx={{
               display: {
