@@ -3,6 +3,7 @@ import {
   AccordionDetails,
   AccordionSummary,
   Grid,
+  IconButton,
   Paper,
   styled,
   Typography,
@@ -12,7 +13,10 @@ import MuiAccordionSummary, {
 } from "@mui/material/AccordionSummary";
 import React, { Dispatch, useState } from "react";
 import { StatusBoard } from "statusBoard";
-import { ExpandMore as ExpandMoreIcon } from "@mui/icons-material";
+import {
+  ExpandMore as ExpandMoreIcon,
+  Edit as EditIcon,
+} from "@mui/icons-material";
 import TextSection from "./TextSection";
 import DateSection from "./DateSection";
 import InitialsSection from "./InitialsSection";
@@ -140,10 +144,12 @@ type boardMapping = {
 export default function PlaneBoard({
   board,
   setStatusBoards,
+  statusBoards,
   sx,
 }: {
   board: StatusBoard;
   setStatusBoards: Dispatch<React.SetStateAction<StatusBoard[]>>;
+  statusBoards: StatusBoard[];
   sx?: object;
 }) {
   const [boardOpen, setBoardOpen] = useState<boolean | undefined>(true);
@@ -261,7 +267,14 @@ export default function PlaneBoard({
         sx={{ ...sx, bgcolor: "secondary.light" }}
       >
         <AccordionSummary
-          expandIcon={<ExpandMoreIcon />}
+          expandIcon={
+            <>
+              <IconButton onClick={() => setEditMode(!editMode)}>
+                <EditIcon />
+              </IconButton>
+              <ExpandMoreIcon />
+            </>
+          }
           aria-controls="panel1bh-content"
           id="panel1bh-header"
         >
@@ -326,8 +339,9 @@ export default function PlaneBoard({
                       <item.component
                         editMode={editMode}
                         header={item.header}
-                        accessor={item.accessor}
-                        board={board}
+                        field={board[item.accessor]}
+                        setStatusBoards={setStatusBoards}
+                        statusBoards={statusBoards}
                       />
                     </Grid>
                   ))}

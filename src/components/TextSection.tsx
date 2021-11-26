@@ -1,24 +1,30 @@
-import { Typography } from "@mui/material";
-import React from "react";
+import { TextField, Typography } from "@mui/material";
+import React, { Dispatch } from "react";
 import { StatusBoard } from "statusBoard";
 
 export default function TextSection({
   editMode,
   header,
-  accessor,
-  board,
+  field,
+  setStatusBoards,
+  statusBoards,
 }: {
   editMode: boolean;
   header: string;
-  accessor: string;
-  board: StatusBoard;
+  field: string;
+  setStatusBoards: Dispatch<React.SetStateAction<StatusBoard[]>>;
+  statusBoards: StatusBoard[];
 }) {
   if (editMode) {
-    return <Typography></Typography>;
+    return (
+      <Typography>
+        {/* {header}: <TextField onChange={() => setStatusBoards()} /> */}
+      </Typography>
+    );
   }
   return (
     <Typography>
-      {header}: {board[accessor]}
+      {header}: {field}
     </Typography>
   );
 }

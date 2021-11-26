@@ -144,6 +144,7 @@ export default function StatusBoardPage() {
           <DesktopBoard
             board={board}
             setStatusBoards={setStatusBoards}
+            statusBoards={statusBoards}
             key={board.tailNumber}
             sx={{
               display: {
