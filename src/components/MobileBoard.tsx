@@ -118,7 +118,6 @@ export default function PlaneBoard({
             <Grid container style={Object.assign({})}>
               {mapping.map((item) => (
                 <Grid item xs={12}>
-                  {console.log(item)}
                   <Typography>
                     {item.header}: {board[item.accessor]}
                   </Typography>

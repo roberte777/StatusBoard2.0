@@ -9,82 +9,6 @@ import MobileBoard from "@/components/MobileBoard";
 import DesktopBoard from "@/components/DesktopBoard";
 import { DataGrid, GridColDef } from "@mui/x-data-grid";
 
-const columns: GridColDef[] = [
-  {
-    headerName: "Tail Number",
-    field: "tailNumber",
-  },
-  {
-    headerName: "Departure Date",
-    field: "deptDate",
-  },
-  {
-    headerName: "Departure Time",
-    field: "deptTime.seconds",
-  },
-  {
-    headerName: "Crew",
-    field: "crew",
-  },
-  {
-    headerName: "Fuel",
-    field: "fuel",
-  },
-  {
-    headerName: "C/W",
-    field: "cw",
-  },
-  {
-    headerName: "Departure Date",
-    field: "deptDate2",
-  },
-  {
-    headerName: "Departure Time",
-    field: "deptTime2.seconds",
-  },
-  {
-    headerName: "Crew",
-    field: "crew2",
-  },
-  {
-    headerName: "Fuel",
-    field: "fuel2",
-  },
-  {
-    headerName: "C/W",
-    field: "cw2",
-  },
-  {
-    headerName: "Posted",
-    field: "posted",
-  },
-  {
-    headerName: "Fueled",
-    field: "fueled",
-  },
-  {
-    headerName: "Tires Mon & Fri",
-    field: "tires",
-  },
-  {
-    headerName: "Lav",
-    field: "lav",
-  },
-  { headerName: "Routine Cleaning", field: "routine" },
-  {
-    headerName: "Detailed Cleaning",
-    field: "detailed",
-  },
-  {
-    headerName: "MEL Status",
-    field: "MEL",
-  },
-  {
-    headerName: "Notes",
-    field: "notes",
-  },
-];
-
 export default function StatusBoardPage() {
   const [statusBoards, setStatusBoards] = useState<StatusBoard[]>([]);
   useEffect(() => {
@@ -92,14 +16,13 @@ export default function StatusBoardPage() {
     const unsubscribe = onSnapshot(q, async (querySnapshot) => {
       let boards: StatusBoard[] = [];
       querySnapshot.forEach((doc) => {
-        boards.push(doc.data() as StatusBoard);
+        boards.push({ ...doc.data(), id: doc.id } as StatusBoard);
       });
 
-      setStatusBoards(boards.map((e) => ({ ...e, id: e.tailNumber })));
+      setStatusBoards(boards);
     });
     return unsubscribe;
   }, []);
-
   return (
     <Grid container spacing={1}>
       <Grid item xs={12}>
@@ -157,12 +80,5 @@ export default function StatusBoardPage() {
       ))}
     </Grid>
   );
-  // <div style={{ height: "100vh" }}>
-  //   <div style={{ display: "flex", height: "100%" }}>
-  //     <div style={{ flexGrow: 1 }}>
-  //       <DataGrid rows={statusBoards} columns={columns} />
-  //     </div>
-  //   </div>
-  // </div>
 }
 StatusBoardPage.title = "Status Board";

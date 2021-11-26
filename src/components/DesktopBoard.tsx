@@ -2,6 +2,7 @@ import {
   Accordion,
   AccordionDetails,
   AccordionSummary,
+  Button,
   Grid,
   IconButton,
   Paper,
@@ -11,7 +12,7 @@ import {
 import MuiAccordionSummary, {
   AccordionSummaryProps,
 } from "@mui/material/AccordionSummary";
-import React, { Dispatch, useState } from "react";
+import React, { Dispatch, useEffect, useState } from "react";
 import { StatusBoard } from "statusBoard";
 import {
   ExpandMore as ExpandMoreIcon,
@@ -20,6 +21,8 @@ import {
 import TextSection from "./TextSection";
 import DateSection from "./DateSection";
 import InitialsSection from "./InitialsSection";
+import { doc, updateDoc } from "@firebase/firestore";
+import { db } from "@/firebase/provider";
 
 type boardMapping = {
   header: string;
@@ -141,6 +144,104 @@ type boardMapping = {
 //   },
 // ];
 
+const boardMapping1: boardMapping[] = [
+  {
+    header: "Departure Date",
+    accessor: "deptDate",
+    component: DateSection,
+  },
+  {
+    header: "Departure Time",
+    accessor: "deptTime.seconds",
+    component: DateSection,
+  },
+  {
+    header: "Crew",
+    accessor: "crew",
+    component: InitialsSection,
+  },
+  {
+    header: "Fuel",
+    accessor: "fuel",
+    component: TextSection,
+  },
+  {
+    header: "C/W",
+    accessor: "cw",
+    component: InitialsSection,
+  },
+];
+const boardMapping2: boardMapping[] = [
+  {
+    header: "Departure Date",
+    accessor: "deptDate2",
+    component: DateSection,
+  },
+  {
+    header: "Departure Time",
+    accessor: "deptTime2.seconds",
+    component: DateSection,
+  },
+  {
+    header: "Crew",
+    accessor: "crew2",
+    component: InitialsSection,
+  },
+  {
+    header: "Fuel",
+    accessor: "fuel2",
+    component: TextSection,
+  },
+  {
+    header: "C/W",
+    accessor: "cw2",
+    component: InitialsSection,
+  },
+];
+const boardMapping3: boardMapping[] = [
+  {
+    header: "Posted",
+    accessor: "posted",
+    component: DateSection,
+  },
+  {
+    header: "Fueled",
+    accessor: "fueled",
+    component: DateSection,
+  },
+  {
+    header: "Tires Mon & Fri",
+    accessor: "tires",
+    component: DateSection,
+  },
+  {
+    header: "Lav",
+    accessor: "lav",
+    component: DateSection,
+  },
+];
+const boardMapping4: boardMapping[] = [
+  {
+    header: "Routine Cleaning",
+    accessor: "routine",
+    component: DateSection,
+  },
+  {
+    header: "Detailed Cleaning",
+    accessor: "detailed",
+    component: DateSection,
+  },
+  {
+    header: "MEL Status",
+    accessor: "MEL",
+    component: TextSection,
+  },
+  {
+    header: "Notes",
+    accessor: "notes",
+    component: TextSection,
+  },
+];
 export default function PlaneBoard({
   board,
   setStatusBoards,
@@ -154,104 +255,7 @@ export default function PlaneBoard({
 }) {
   const [boardOpen, setBoardOpen] = useState<boolean | undefined>(true);
   const [editMode, setEditMode] = useState<boolean>(false);
-  const boardMapping1: boardMapping[] = [
-    {
-      header: "Departure Date",
-      accessor: "deptDate",
-      component: DateSection,
-    },
-    {
-      header: "Departure Time",
-      accessor: "deptTime.seconds",
-      component: DateSection,
-    },
-    {
-      header: "Crew",
-      accessor: "crew",
-      component: InitialsSection,
-    },
-    {
-      header: "Fuel",
-      accessor: "fuel",
-      component: TextSection,
-    },
-    {
-      header: "C/W",
-      accessor: "cw",
-      component: InitialsSection,
-    },
-  ];
-  const boardMapping2: boardMapping[] = [
-    {
-      header: "Departure Date",
-      accessor: "deptDate2",
-      component: DateSection,
-    },
-    {
-      header: "Departure Time",
-      accessor: "deptTime2.seconds",
-      component: DateSection,
-    },
-    {
-      header: "Crew",
-      accessor: "crew2",
-      component: InitialsSection,
-    },
-    {
-      header: "Fuel",
-      accessor: "fuel2",
-      component: TextSection,
-    },
-    {
-      header: "C/W",
-      accessor: "cw2",
-      component: InitialsSection,
-    },
-  ];
-  const boardMapping3: boardMapping[] = [
-    {
-      header: "Posted",
-      accessor: "posted",
-      component: DateSection,
-    },
-    {
-      header: "Fueled",
-      accessor: "fueled",
-      component: DateSection,
-    },
-    {
-      header: "Tires Mon & Fri",
-      accessor: "tires",
-      component: DateSection,
-    },
-    {
-      header: "Lav",
-      accessor: "lav",
-      component: DateSection,
-    },
-  ];
-  const boardMapping4: boardMapping[] = [
-    {
-      header: "Routine Cleaning",
-      accessor: "routine",
-      component: DateSection,
-    },
-    {
-      header: "Detailed Cleaning",
-      accessor: "detailed",
-      component: DateSection,
-    },
-    {
-      header: "MEL Status",
-      accessor: "MEL",
-      component: TextSection,
-    },
-    {
-      header: "Notes",
-      accessor: "notes",
-      component: TextSection,
-    },
-  ];
+  const [currBoard, setCurrBoard] = useState<StatusBoard>(board);
 
   const mappingArr = [
     boardMapping1,
@@ -259,6 +263,9 @@ export default function PlaneBoard({
     boardMapping3,
     boardMapping4,
   ];
+  useEffect(() => {
+    setCurrBoard(board);
+  }, [board]);
   return (
     <>
       <Accordion
@@ -339,9 +346,9 @@ export default function PlaneBoard({
                       <item.component
                         editMode={editMode}
                         header={item.header}
-                        field={board[item.accessor]}
-                        setStatusBoards={setStatusBoards}
-                        statusBoards={statusBoards}
+                        accessor={item.accessor}
+                        board={currBoard}
+                        setBoard={setCurrBoard}
                       />
                     </Grid>
                   ))}
@@ -350,6 +357,19 @@ export default function PlaneBoard({
             </Grid>
           ))}
         </Grid>
+        {editMode && (
+          <Button
+            onClick={async () => {
+              const boardRef = doc(db, "Boards", board.id);
+
+              // Set the "capital" field of the city 'DC'
+              await updateDoc(boardRef, currBoard);
+              setEditMode(false);
+            }}
+          >
+            Save
+          </Button>
+        )}
       </Accordion>
     </>
   );

@@ -1,30 +1,37 @@
-import { TextField, Typography } from "@mui/material";
+import { ListItem, TextField, Typography } from "@mui/material";
 import React, { Dispatch } from "react";
 import { StatusBoard } from "statusBoard";
 
 export default function TextSection({
   editMode,
   header,
-  field,
-  setStatusBoards,
-  statusBoards,
+  accessor,
+  //   field,
+  board,
+  setBoard,
 }: {
   editMode: boolean;
   header: string;
-  field: string;
-  setStatusBoards: Dispatch<React.SetStateAction<StatusBoard[]>>;
-  statusBoards: StatusBoard[];
+  //   field: string;
+  accessor: string;
+  board: StatusBoard;
+  setBoard: Dispatch<React.SetStateAction<StatusBoard>>;
+  //   setStatusBoards: Dispatch<React.SetStateAction<StatusBoard[]>>;
+  //   statusBoards: StatusBoard[];
 }) {
   if (editMode) {
     return (
       <Typography>
-        {/* {header}: <TextField onChange={() => setStatusBoards()} /> */}
+        {header}:{" "}
+        <TextField
+          onChange={(e) => setBoard({ ...board, [accessor]: e.target.value })}
+        />
       </Typography>
     );
   }
   return (
     <Typography>
-      {header}: {field}
+      {header}: {board[accessor]}
     </Typography>
   );
 }

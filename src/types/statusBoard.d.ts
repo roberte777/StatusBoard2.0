@@ -25,6 +25,7 @@ declare module "statusBoard" {
     [tailNumber: string]: string;
     [tires: string]: string;
     [tiresInitials: string]: string;
+    id: string;
   }
   export type GeneralStatus = {
     fd: string;
@@ -37,5 +38,6 @@ declare module "statusBoard" {
     vacDate: string;
     vacTime: Date;
     vacType: string;
+    id: string;
   };
 }
