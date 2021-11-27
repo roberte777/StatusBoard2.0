@@ -34,7 +34,6 @@ export default function DateSection({
       </Typography>
     );
   }
-  console.log(board[accessor], accessor);
   return (
     <Typography>
       {header}:{" "}

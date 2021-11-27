@@ -66,7 +66,7 @@ export default function StatusBoardPage() {
       </Grid>
       {statusBoards.map((board: StatusBoard, idx: number) => (
         <Grid item xs={12} key={idx}>
-          {/* <MobileBoard
+          <MobileBoard
             board={board}
             key={`${board.tailNumber}sm`}
             sx={{
@@ -76,7 +76,8 @@ export default function StatusBoardPage() {
               },
               borderRadius: "16px",
             }}
-          /> */}
+            dataLoading={dataLoading}
+          />
           <DesktopBoard
             board={board}
             key={board.tailNumber}
