@@ -68,5 +68,4 @@ export default function index() {
   );
 }
 index.title = "Home";
-index.auth = true;
 index.noPadding = true;

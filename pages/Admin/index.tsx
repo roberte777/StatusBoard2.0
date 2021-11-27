@@ -260,3 +260,4 @@ export default function index() {
 }
 index.title = "Admin";
 index.auth = true;
+index.roles = ["admin"];
