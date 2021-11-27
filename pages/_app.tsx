@@ -6,11 +6,10 @@ import React, { useEffect, useState } from "react";
 import AuthProvider from "../src/firebase/provider";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { getAuth } from "@firebase/auth";
-import { CircularProgress, Container } from "@mui/material";
 import DateAdapter from "@mui/lab/AdapterDateFns";
 import LocalizationProvider from "@mui/lab/LocalizationProvider";
 import Loading from "@/components/Loading";
-import { useRouter } from "next/router";
+import { NextRouter } from "next/router";
 
 type ComponentType = NextComponentType<NextPageContext, any, {}> & {
   title: string;
@@ -22,15 +21,17 @@ type ComponentType = NextComponentType<NextPageContext, any, {}> & {
 interface Props {
   Component: ComponentType;
   pageProps: any;
+  router: NextRouter;
 }
 const Auth = ({
   children,
   roles = [],
+  router,
 }: {
   children: React.ReactNode;
   roles: string[];
+  router: NextRouter;
 }) => {
-  const router = useRouter();
   const [user, loading] = useAuthState(getAuth());
   const [rolesLoading, setRolesLoading] = useState(true);
   const [permitted, setPermitted] = useState(false);
@@ -54,22 +55,22 @@ const Auth = ({
     return <Loading />;
   } else if (!user) {
     router.replace("/Auth/login");
-    return <>Login</>;
+    return <div>Login</div>;
   } else if (!permitted) {
-    return <>Not Permitted</>;
+    return <div>Not Permitted</div>;
   } else {
     return <div>{children}</div>;
   }
 };
 
-function MyApp({ Component, pageProps }: Props) {
+function MyApp({ Component, pageProps, router }: Props) {
   return (
     <AuthProvider>
       <ThemeProvdiers>
         <LocalizationProvider dateAdapter={DateAdapter}>
           <Layout title={Component.title} noPadding={Component.noPadding}>
             {Component.auth ? (
-              <Auth roles={Component.roles}>
+              <Auth roles={Component.roles} router={router}>
                 <Component {...pageProps} />
               </Auth>
             ) : (
