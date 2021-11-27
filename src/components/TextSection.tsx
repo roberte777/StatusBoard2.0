@@ -19,12 +19,14 @@ export default function TextSection({
 }) {
   if (editMode) {
     return (
-      <Typography height="100%">
+      <Typography sx={{ display: "flex", alignItems: "center" }}>
+        {header}:
         <TextField
-          label={header}
+          value={currBoard[accessor]}
           onChange={(e) =>
             setCurrBoard({ ...currBoard, [accessor]: e.target.value })
           }
+          sx={{ ml: "10px" }}
         />
       </Typography>
     );

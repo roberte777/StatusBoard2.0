@@ -21,22 +21,22 @@ export default function DateSection({
 }) {
   if (editMode) {
     return (
-      <Typography height="100%">
-        {header}:
-        <Box sx={{ m: "10px 0" }}>
-          <DateTimePicker
-            renderInput={(props) => <TextField {...props} />}
-            label="test"
-            value={new Date(currBoard[accessor])}
-            onChange={(newValue) => {
-              setCurrBoard({
-                ...currBoard,
-                [accessor]: newValue,
-              } as StatusBoard);
-            }}
-          />
-        </Box>
-      </Typography>
+      <Box>
+        <Typography sx={{ display: "flex", alignItems: "center" }}>
+          {header}:{" "}
+        </Typography>
+        <DateTimePicker
+          renderInput={(props) => <TextField {...props} />}
+          label="test"
+          value={new Date(currBoard[accessor])}
+          onChange={(newValue) => {
+            setCurrBoard({
+              ...currBoard,
+              [accessor]: newValue,
+            } as StatusBoard);
+          }}
+        />
+      </Box>
     );
   }
   return (

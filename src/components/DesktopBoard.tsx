@@ -265,8 +265,6 @@ export default function PlaneBoard({
           <Button
             onClick={async () => {
               const boardRef = doc(db, "Boards", board.id);
-
-              // Set the "capital" field of the city 'DC'
               await updateDoc(boardRef, currBoard);
               setEditMode(false);
             }}
