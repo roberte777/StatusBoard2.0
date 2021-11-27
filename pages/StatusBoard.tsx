@@ -1,13 +1,16 @@
 import { db } from "@/firebase/provider";
-import { collection, query, Timestamp } from "@firebase/firestore";
-import { Grid, Paper } from "@mui/material";
-import { styled } from "@mui/system";
+import { collection, query } from "@firebase/firestore";
+import { Box, Grid, Paper, Typography } from "@mui/material";
 import { onSnapshot } from "firebase/firestore";
 import { StatusBoard, GeneralStatus } from "statusBoard";
 import React, { useEffect, useState } from "react";
 import MobileBoard from "@/components/MobileBoard";
 import DesktopBoard from "@/components/DesktopBoard";
-import { DataGrid, GridColDef } from "@mui/x-data-grid";
+import {
+  FlightTakeoff as FlightTakeoffIcon,
+  FlightLand as FlightLandIcon,
+  TextSnippet as TextSnippetIcon,
+} from "@mui/icons-material";
 
 export default function StatusBoardPage() {
   const [statusBoards, setStatusBoards] = useState<StatusBoard[]>([]);
@@ -46,20 +49,27 @@ export default function StatusBoardPage() {
           }}
         >
           <Grid container>
-            <Grid item xs={3}>
+            <Grid item xs={3} sx={{ display: "flex" }}>
               Tail Number
             </Grid>
-            <Grid item xs={2}>
+            <Grid item xs={2} sx={{ display: "flex" }}>
+              <FlightTakeoffIcon fontSize="small" sx={{ mr: "5px" }} />
               Outbound
             </Grid>
-            <Grid item xs={2}>
+            <Grid item xs={2} sx={{ display: "flex" }}>
+              <FlightLandIcon fontSize="small" sx={{ mr: "5px" }} />
               Inbound
             </Grid>
-            <Grid item xs={3}>
+            <Grid item xs={2} sx={{ display: "flex" }}>
+              <TextSnippetIcon fontSize="small" sx={{ mr: "5px" }} />
               Notes
             </Grid>
-            <Grid item xs={2}>
-              Actions
+            <Grid
+              item
+              xs={3}
+              sx={{ justifyContent: "center", display: "flex" }}
+            >
+              <Typography>Actions</Typography>
             </Grid>
           </Grid>
         </Paper>

@@ -1,11 +1,11 @@
 import {
   Accordion,
   AccordionDetails,
-  AccordionSummary,
+  Box,
+  // AccordionSummary,
   Button,
   Grid,
   IconButton,
-  Paper,
   styled,
   Typography,
 } from "@mui/material";
@@ -120,6 +120,20 @@ const boardMapping4: boardMapping[] = [
     component: TextSection,
   },
 ];
+
+const AccordionSummary = styled((props: AccordionSummaryProps) => (
+  <MuiAccordionSummary {...props} />
+))(({ theme }) => ({
+  backgroundColor:
+    theme.palette.mode === "dark"
+      ? "rgba(255, 255, 255, .05)"
+      : "rgba(0, 0, 0, .03)",
+  // flexDirection: "row-reverse",
+  "& .MuiAccordionSummary-expandIconWrapper.Mui-expanded": {
+    // transform: "rotate(90deg)",
+  },
+}));
+
 export default function PlaneBoard({
   board,
   sx,
@@ -149,18 +163,11 @@ export default function PlaneBoard({
     <>
       <Accordion
         expanded={boardOpen}
-        onChange={() => setBoardOpen(!boardOpen)}
+        // onChange={() => setBoardOpen(!boardOpen)}
         sx={{ ...sx, bgcolor: "secondary.light" }}
       >
         <AccordionSummary
-          expandIcon={
-            <>
-              <IconButton onClick={() => setEditMode(!editMode)}>
-                <EditIcon />
-              </IconButton>
-              <ExpandMoreIcon />
-            </>
-          }
+          // onClick={() => setBoardOpen(!boardOpen)}
           aria-controls="panel1bh-content"
           id="panel1bh-header"
         >
@@ -204,22 +211,38 @@ export default function PlaneBoard({
                 {board.notes}
               </Typography>
             </Grid>
-            <Grid item xs={2}>
-              <Typography
-                sx={{
-                  display: "flex",
-                  alignItems: "center",
-                  height: "100%",
-                }}
-              ></Typography>
+            <Grid item xs={3}>
+              <Box>
+                <IconButton
+                  onClick={(e) => {
+                    setEditMode(!editMode);
+                  }}
+                  sx={{ float: "right" }}
+                >
+                  <EditIcon />
+                </IconButton>
+                <IconButton
+                  onClick={(e) => {
+                    setBoardOpen(!boardOpen);
+                  }}
+                  sx={{ float: "right" }}
+                >
+                  <ExpandMoreIcon />
+                </IconButton>
+              </Box>
             </Grid>
           </Grid>
         </AccordionSummary>
         <Grid container>
           {mappingArr.map((mapping, idx) => (
-            <Grid item xs={12} sm={3} key={idx}>
+            <Grid item sm={editMode ? 6 : 3} key={idx}>
               <AccordionDetails key={JSON.stringify(mapping)}>
-                <Grid container key={JSON.stringify(mapping) + idx}>
+                <Grid
+                  container
+                  key={JSON.stringify(mapping) + idx}
+                  spacing={1}
+                  sx={{ p: 1 }}
+                >
                   {mapping.map((item, idx) => (
                     <Grid item xs={12} key={JSON.stringify(item) + idx}>
                       <item.component

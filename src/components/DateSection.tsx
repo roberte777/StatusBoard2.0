@@ -1,4 +1,4 @@
-import { TextField, Typography } from "@mui/material";
+import { Box, TextField, Typography } from "@mui/material";
 import React, { Dispatch } from "react";
 import { StatusBoard } from "statusBoard";
 import DateTimePicker from "@mui/lab/DateTimePicker";
@@ -23,14 +23,19 @@ export default function DateSection({
     return (
       <Typography height="100%">
         {header}:
-        <DateTimePicker
-          renderInput={(props) => <TextField {...props} />}
-          label="test"
-          value={new Date(currBoard[accessor])}
-          onChange={(newValue) => {
-            setCurrBoard({ ...currBoard, [accessor]: newValue } as StatusBoard);
-          }}
-        />
+        <Box sx={{ m: "10px 0" }}>
+          <DateTimePicker
+            renderInput={(props) => <TextField {...props} />}
+            label="test"
+            value={new Date(currBoard[accessor])}
+            onChange={(newValue) => {
+              setCurrBoard({
+                ...currBoard,
+                [accessor]: newValue,
+              } as StatusBoard);
+            }}
+          />
+        </Box>
       </Typography>
     );
   }
