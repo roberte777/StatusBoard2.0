@@ -6,25 +6,25 @@ export default function TextSection({
   editMode,
   header,
   accessor,
-  //   field,
+  currBoard,
   board,
-  setBoard,
+  setCurrBoard,
 }: {
   editMode: boolean;
   header: string;
-  //   field: string;
   accessor: string;
+  currBoard: StatusBoard;
   board: StatusBoard;
-  setBoard: Dispatch<React.SetStateAction<StatusBoard>>;
-  //   setStatusBoards: Dispatch<React.SetStateAction<StatusBoard[]>>;
-  //   statusBoards: StatusBoard[];
+  setCurrBoard: Dispatch<React.SetStateAction<StatusBoard>>;
 }) {
   if (editMode) {
     return (
-      <Typography>
-        {header}:{" "}
+      <Typography height="100%">
         <TextField
-          onChange={(e) => setBoard({ ...board, [accessor]: e.target.value })}
+          label={header}
+          onChange={(e) =>
+            setCurrBoard({ ...currBoard, [accessor]: e.target.value })
+          }
         />
       </Typography>
     );

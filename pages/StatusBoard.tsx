@@ -1,5 +1,5 @@
 import { db } from "@/firebase/provider";
-import { collection, query } from "@firebase/firestore";
+import { collection, query, Timestamp } from "@firebase/firestore";
 import { Grid, Paper } from "@mui/material";
 import { styled } from "@mui/system";
 import { onSnapshot } from "firebase/firestore";
@@ -11,18 +11,31 @@ import { DataGrid, GridColDef } from "@mui/x-data-grid";
 
 export default function StatusBoardPage() {
   const [statusBoards, setStatusBoards] = useState<StatusBoard[]>([]);
+  const [dataLoading, setDataLoading] = useState<boolean>(false);
   useEffect(() => {
     const q = query(collection(db, "Boards"));
     const unsubscribe = onSnapshot(q, async (querySnapshot) => {
+      setDataLoading(true);
       let boards: StatusBoard[] = [];
-      querySnapshot.forEach((doc) => {
-        boards.push({ ...doc.data(), id: doc.id } as StatusBoard);
+      querySnapshot.forEach(async (doc) => {
+        var data = doc.data();
+        Object.keys(data).forEach((field: any) => {
+          if (typeof data[field] === "object") {
+            data[field] = data[field].toDate();
+          }
+        });
+        boards.push({
+          ...data,
+          id: doc.id,
+        } as StatusBoard);
       });
 
       setStatusBoards(boards);
+      setDataLoading(false);
     });
     return unsubscribe;
   }, []);
+
   return (
     <Grid container spacing={1}>
       <Grid item xs={12}>
@@ -53,7 +66,7 @@ export default function StatusBoardPage() {
       </Grid>
       {statusBoards.map((board: StatusBoard, idx: number) => (
         <Grid item xs={12} key={idx}>
-          <MobileBoard
+          {/* <MobileBoard
             board={board}
             key={`${board.tailNumber}sm`}
             sx={{
@@ -63,11 +76,9 @@ export default function StatusBoardPage() {
               },
               borderRadius: "16px",
             }}
-          />
+          /> */}
           <DesktopBoard
             board={board}
-            setStatusBoards={setStatusBoards}
-            statusBoards={statusBoards}
             key={board.tailNumber}
             sx={{
               display: {
@@ -75,6 +86,7 @@ export default function StatusBoardPage() {
                 sm: "block",
               },
             }}
+            dataLoading={dataLoading}
           />
         </Grid>
       ))}

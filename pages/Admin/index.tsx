@@ -7,7 +7,7 @@ import {
   Add as AddIcon,
   Remove as RemoveIcon,
 } from "@mui/icons-material";
-import FilledButton from "@/components/filledButton";
+import FilledButton from "@/components/FilledButton";
 import Loading from "@/components/Loading";
 import {
   alpha,

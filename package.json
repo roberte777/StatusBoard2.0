@@ -15,12 +15,15 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@date-io/date-fns": "^2.11.0",
     "@emotion/react": "^11.6.0",
     "@emotion/styled": "^11.6.0",
     "@mui/icons-material": "^5.1.1",
+    "@mui/lab": "^5.0.0-alpha.57",
     "@mui/material": "^5.1.1",
     "@mui/types": "^7.1.0",
     "@mui/x-data-grid": "^5.0.1",
+    "date-fns": "^2.26.0",
     "dotenv": "^10.0.0",
     "express": "^4.17.1",
     "firebase": "^9.4.1",

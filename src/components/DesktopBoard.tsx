@@ -23,6 +23,8 @@ import DateSection from "./DateSection";
 import InitialsSection from "./InitialsSection";
 import { doc, updateDoc } from "@firebase/firestore";
 import { db } from "@/firebase/provider";
+import Loading from "./Loading";
+import { getDateString } from "@/constants/dateFunctions";
 
 type boardMapping = {
   header: string;
@@ -146,13 +148,8 @@ type boardMapping = {
 
 const boardMapping1: boardMapping[] = [
   {
-    header: "Departure Date",
+    header: "Departure",
     accessor: "deptDate",
-    component: DateSection,
-  },
-  {
-    header: "Departure Time",
-    accessor: "deptTime.seconds",
     component: DateSection,
   },
   {
@@ -173,13 +170,8 @@ const boardMapping1: boardMapping[] = [
 ];
 const boardMapping2: boardMapping[] = [
   {
-    header: "Departure Date",
+    header: "Departure",
     accessor: "deptDate2",
-    component: DateSection,
-  },
-  {
-    header: "Departure Time",
-    accessor: "deptTime2.seconds",
     component: DateSection,
   },
   {
@@ -244,13 +236,11 @@ const boardMapping4: boardMapping[] = [
 ];
 export default function PlaneBoard({
   board,
-  setStatusBoards,
-  statusBoards,
   sx,
+  dataLoading,
 }: {
   board: StatusBoard;
-  setStatusBoards: Dispatch<React.SetStateAction<StatusBoard[]>>;
-  statusBoards: StatusBoard[];
+  dataLoading: boolean;
   sx?: object;
 }) {
   const [boardOpen, setBoardOpen] = useState<boolean | undefined>(true);
@@ -266,6 +256,9 @@ export default function PlaneBoard({
   useEffect(() => {
     setCurrBoard(board);
   }, [board]);
+  if (dataLoading) {
+    return <Loading />;
+  }
   return (
     <>
       <Accordion
@@ -299,7 +292,7 @@ export default function PlaneBoard({
                   height: "100%",
                 }}
               >
-                {board.deptDate}
+                {board.deptDate ? getDateString(board.deptDate) : "None"}
               </Typography>
             </Grid>
             <Grid item xs={2}>
@@ -310,7 +303,7 @@ export default function PlaneBoard({
                   height: "100%",
                 }}
               >
-                {board.deptDate2}
+                {board.deptDate2 ? getDateString(board.deptDate2) : "None"}
               </Typography>
             </Grid>
             <Grid
@@ -337,18 +330,20 @@ export default function PlaneBoard({
           </Grid>
         </AccordionSummary>
         <Grid container>
-          {mappingArr.map((mapping) => (
-            <Grid item xs={12} sm={3}>
-              <AccordionDetails>
-                <Grid container>
-                  {mapping.map((item) => (
-                    <Grid item xs={12}>
+          {mappingArr.map((mapping, idx) => (
+            <Grid item xs={12} sm={3} key={idx}>
+              <AccordionDetails key={JSON.stringify(mapping)}>
+                <Grid container key={JSON.stringify(mapping) + idx}>
+                  {mapping.map((item, idx) => (
+                    <Grid item xs={12} key={JSON.stringify(item) + idx}>
                       <item.component
                         editMode={editMode}
                         header={item.header}
                         accessor={item.accessor}
-                        board={currBoard}
-                        setBoard={setCurrBoard}
+                        currBoard={currBoard}
+                        board={board}
+                        setCurrBoard={setCurrBoard}
+                        key={item.accessor}
                       />
                     </Grid>
                   ))}

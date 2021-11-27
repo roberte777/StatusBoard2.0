@@ -7,6 +7,8 @@ import AuthProvider from "../src/firebase/provider";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { getAuth } from "@firebase/auth";
 import { CircularProgress, Container } from "@mui/material";
+import DateAdapter from "@mui/lab/AdapterDateFns";
+import LocalizationProvider from "@mui/lab/LocalizationProvider";
 import Loading from "@/components/Loading";
 
 // import { UserProvider } from "@auth0/nextjs-auth0";
@@ -36,15 +38,17 @@ function MyApp({ Component, pageProps }: Props) {
   return (
     <AuthProvider>
       <ThemeProvdiers>
-        <Layout title={Component.title} noPadding={Component.noPadding}>
-          {Component.auth ? (
-            <Auth>
+        <LocalizationProvider dateAdapter={DateAdapter}>
+          <Layout title={Component.title} noPadding={Component.noPadding}>
+            {Component.auth ? (
+              <Auth>
+                <Component {...pageProps} />
+              </Auth>
+            ) : (
               <Component {...pageProps} />
-            </Auth>
-          ) : (
-            <Component {...pageProps} />
-          )}
-        </Layout>
+            )}
+          </Layout>
+        </LocalizationProvider>
       </ThemeProvdiers>
     </AuthProvider>
   );
