@@ -2,7 +2,7 @@ import { Box, TextField, Typography } from "@mui/material";
 import React, { Dispatch } from "react";
 import { StatusBoard } from "statusBoard";
 import DateTimePicker from "@mui/lab/DateTimePicker";
-import { getDateTimeString } from "@/constants/dateFunctions";
+import moment from "moment";
 
 export default function DateSection({
   editMode,
@@ -43,7 +43,7 @@ export default function DateSection({
     <Typography>
       {header}:{" "}
       {board[accessor]
-        ? getDateTimeString(board[accessor] as unknown as Date)
+        ? moment(board[accessor] as unknown as Date).format("YYYY/MM/DD h:mm a")
         : "None"}
     </Typography>
   );
