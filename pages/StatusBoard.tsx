@@ -1,7 +1,7 @@
 import { db } from "@/firebase/provider";
 import { collection, query } from "@firebase/firestore";
-import { onSnapshot } from "firebase/firestore";
-import { boardColumn, StatusBoard } from "statusBoard";
+import { doc, onSnapshot } from "firebase/firestore";
+import { boardColumn, GeneralStatus, sections, StatusBoard } from "statusBoard";
 import React, { useEffect, useState, useMemo } from "react";
 import MobileBoard from "@/components/MobileBoard";
 import DesktopBoard from "@/components/Desktop/Board";
@@ -13,9 +13,15 @@ import {
 import DateSection from "@/components/DateSection";
 import InitialsSection from "@/components/InitialsSection";
 import TextSection from "@/components/TextSection";
+type rows = {
+  component: Function;
+  header: string;
+  accessor: string;
+};
 
 export default function StatusBoardPage() {
   const [statusBoards, setStatusBoards] = useState<StatusBoard[]>([]);
+  const [generalStatus, setGeneralStatus] = useState<GeneralStatus>({});
   const [dataLoading, setDataLoading] = useState<boolean>(false);
   useEffect(() => {
     const q = query(collection(db, "Boards"));
@@ -38,7 +44,25 @@ export default function StatusBoardPage() {
       setStatusBoards(boards);
       setDataLoading(false);
     });
+
     return unsubscribe;
+  }, []);
+  useEffect(() => {
+    const general = doc(db, "General Status", "General Status");
+    const unsub = onSnapshot(general, (doc) => {
+      setDataLoading(true);
+      var data = doc.data()!;
+      Object.keys(data).forEach((field: any) => {
+        if (typeof data[field] === "object") {
+          data[field] = data[field].toDate().toISOString();
+        }
+      });
+      data = { ...data, id: doc.id };
+      console.log(data);
+      setGeneralStatus(data as GeneralStatus);
+      setDataLoading(false);
+    });
+    return unsub;
   }, []);
 
   const desktopColumns: boardColumn[] = useMemo(
@@ -91,7 +115,7 @@ export default function StatusBoardPage() {
     []
   );
 
-  const desktopDetailSections = useMemo(
+  const desktopDetailSections: sections[] = useMemo(
     () => [
       {
         size: 3,
@@ -197,12 +221,70 @@ export default function StatusBoardPage() {
     []
   ); //wip
 
+  const generalSections: sections[] = useMemo(
+    () => [
+      {
+        size: 4,
+        rows: [
+          {
+            header: "Fuel Delivery",
+            accessor: "fd",
+            component: DateSection,
+          },
+          {
+            header: "Fuel Farm Date",
+            accessor: "fuelFarmDate",
+            component: DateSection,
+          },
+          {
+            header: "Fuel Farm Initials",
+            accessor: "fuelFarmInitials",
+            component: InitialsSection,
+          },
+        ],
+      },
+      {
+        size: 4,
+        rows: [
+          {
+            header: "Notes",
+            accessor: "notes",
+            component: TextSection,
+          },
+          {
+            header: "VAC Comment",
+            accessor: "vacComment",
+            component: TextSection,
+          },
+        ],
+      },
+      {
+        size: 4,
+        rows: [
+          {
+            header: "VAC Date",
+            accessor: "vacDate",
+            component: DateSection,
+          },
+          {
+            header: "VAC Type",
+            accessor: "vacType",
+            component: TextSection,
+          },
+        ],
+      },
+    ],
+    []
+  ); //wip
+
   return (
     <>
       <DesktopBoard
         cards={statusBoards}
         columns={desktopColumns}
         detailSections={desktopDetailSections}
+        generalSections={generalSections}
+        general={generalStatus}
         sx={{
           display: {
             xs: "none",

@@ -28,15 +28,12 @@ declare module "statusBoard" {
     id: string;
   }
   export type GeneralStatus = {
-    fd: string;
-    fdt: Date;
+    [fd: string]: Date;
     fuelFarmDate: Date;
     fuelFarmInitials: string;
-    fuelFarmTime: Date;
     notes: string;
     vacComment: string;
     vacDate: string;
-    vacTime: Date;
     vacType: string;
     id: string;
   };
@@ -62,5 +59,10 @@ declare module "statusBoard" {
       | "body1"
       | "body2"
       | undefined;
+  };
+  type sections = {
+    size: number;
+    rows: rows[];
+    component?: Function;
   };
 }

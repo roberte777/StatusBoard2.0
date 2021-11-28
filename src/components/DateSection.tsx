@@ -32,8 +32,8 @@ export default function DateSection({
             readOnly={readOnly}
           />
         )}
-        value={new Date(value)}
-        onChange={(val) => console.log(val)}
+        value={editedValue || new Date(value)}
+        onChange={(val) => setEditedValue(val)}
       />
       {/* {value ? moment(value).format("YYYY/MM/DD h:mm a") : "None"} */}
     </Typography>

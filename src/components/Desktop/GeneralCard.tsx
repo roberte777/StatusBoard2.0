@@ -27,52 +27,76 @@ type rows = {
 
 export default function DesktopCard({
   data,
-  columns,
   detailSections,
   sx,
 }: {
-  data: StatusBoard | GeneralStatus;
-  columns: boardColumn[];
+  data: GeneralStatus;
   detailSections: sections[];
   sx?: any;
 }) {
   const [boardOpen, setBoardOpen] = useState(true);
   const [edits, setEdits] = useState<any>({});
   const [editable, setEditable] = useState(false);
-
+  // console.log(JSON.stringify(data));
   return (
     <Paper component={Grid} item xs={12} container>
-      {columns.map((col: boardColumn, idx: any) => (
-        <Grid
-          item
-          xs={col.size}
-          key={`${idx}-${col.accessor}`}
-          container
-          alignItems="center"
-          p={1}
-          {...col}
-          sx={{ bgcolor: "secondary.main" }}
+      <Grid
+        item
+        xs={3}
+        alignItems="center"
+        p={1}
+        sx={{ bgcolor: "secondary.main" }}
+      >
+        <Typography noWrap variant="h4">
+          {" "}
+          General Status
+        </Typography>
+      </Grid>
+      <Grid
+        item
+        xs={3}
+        alignItems="center"
+        p={1}
+        sx={{ bgcolor: "secondary.main" }}
+      >
+        <Typography noWrap variant="h4">
+          {moment(data.fd).format("YYYY/MM/DD")}
+        </Typography>
+      </Grid>
+      <Grid
+        item
+        xs={3}
+        alignItems="center"
+        p={1}
+        sx={{ bgcolor: "secondary.main" }}
+      >
+        <Typography noWrap variant="h4">
+          {moment(data.fuelFarmDate).format("YYYY/MM/DD")}
+        </Typography>
+      </Grid>
+      <Grid
+        item
+        xs={3}
+        container
+        alignItems="center"
+        p={1}
+        sx={{ bgcolor: "secondary.main" }}
+      >
+        <IconButton
+          onClick={() => {
+            setBoardOpen((curr) => !curr);
+          }}
+          size="small"
         >
-          {/* add edit mode in here to remove out of detail (no need for duplicate data)? idk */}
-          {col.accessor === "expand" ? (
-            <IconButton
-              onClick={() => {
-                setBoardOpen((curr) => !curr);
-              }}
-              size="small"
-            >
-              {!boardOpen ? <ExpandMoreIcon /> : <ExpandLessIcon />}
-            </IconButton>
-          ) : (
-            // grr. why you red
-            <Typography noWrap variant={col.textVariant}>
-              {col?.type == "date"
-                ? moment(data[col.accessor]).format("YYYY/MM/DD")
-                : data[col.accessor]}
-            </Typography>
-          )}
-        </Grid>
-      ))}
+          {!boardOpen ? <ExpandMoreIcon /> : <ExpandLessIcon />}
+        </IconButton>
+
+        {/* <Typography noWrap variant={col.textVariant}>
+            {col?.type == "date"
+              ? moment(data[col.accessor]).format("YYYY/MM/DD")
+              : data[col.accessor]}
+          </Typography> */}
+      </Grid>
       <Collapse
         in={boardOpen}
         unmountOnExit

@@ -1,13 +1,9 @@
 import React from "react";
 import { Grid, Paper } from "@mui/material";
-import { boardColumn } from "statusBoard";
+import { boardColumn, GeneralStatus, sections, StatusBoard } from "statusBoard";
 import Card from "@/components/Desktop/Card";
+import GeneralCard from "./GeneralCard";
 
-type sections = {
-  size: number;
-  rows: rows[];
-  component: Function;
-};
 type rows = {
   component: Function;
   header: string;
@@ -17,13 +13,17 @@ type rows = {
 export default function DesktopBoard({
   cards,
   columns,
+  general,
   detailSections,
+  generalSections,
   loading,
   sx,
 }: {
-  cards: object[];
+  cards: StatusBoard[];
   columns: boardColumn[];
+  general: GeneralStatus;
   detailSections: sections[];
+  generalSections: sections[];
   loading: boolean;
   sx?: any;
 }) {
@@ -46,9 +46,17 @@ export default function DesktopBoard({
       {loading ? (
         <div>loading...</div> //placeholder
       ) : (
-        cards.map((card: any, idx: any) => (
-          <Card data={card} columns={columns} detailSections={detailSections} />
-        ))
+        <>
+          <GeneralCard data={general} detailSections={generalSections} />
+
+          {cards.map((card: StatusBoard) => (
+            <Card
+              data={card}
+              columns={columns}
+              detailSections={detailSections}
+            />
+          ))}
+        </>
       )}
     </Grid>
   );
