@@ -297,7 +297,7 @@ export default function StatusBoardPage() {
             md: "flex",
           },
         }}
-        loading={generalLoading && boardsLoading}
+        loading={generalLoading || boardsLoading}
       />
       {/* wip for mobile */}
       {statusBoards.map((board) => (
@@ -311,7 +311,7 @@ export default function StatusBoardPage() {
             },
             borderRadius: "16px",
           }}
-          dataLoading={generalLoading && boardsLoading}
+          dataLoading={generalLoading || boardsLoading}
         />
       ))}
     </>
