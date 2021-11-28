@@ -11,25 +11,25 @@ import {
   Drawer,
   CssBaseline,
   Box,
-  AppBar
+  AppBar,
 } from "@mui/material";
 import Sidebar from "./components/sidebar";
 import { useTheme } from "@mui/material/styles";
 import useMediaQuery from "@mui/material/useMediaQuery";
 import DarkModeSwitch from "./components/darkModeSwitch";
 
-type Breakpoint = "xs" | "sm" | "md" | "lg";
+type Breakpoint = "xs" | "sm" | "md" | "lg" | "xl";
 
 const drawerWidth = 240;
 
 export default function ResponsiveDrawer(props: any) {
   const theme = useTheme();
-  const matches = useMediaQuery(theme.breakpoints.up("md"));
+  const matches = useMediaQuery(theme.breakpoints.up("lg"));
   const { window, children, title, noPadding } = props;
   const [mobileDrawerOpen, setMobileDrawerOpen] = React.useState(false);
   const [desktopDrawerOpen, setDesktopDrawerOpen] = React.useState(true);
   const { toggleColorMode, mode } = useContext(ColorModeContext);
-  const breakpoint: Breakpoint = "md"; //This is the point at which it swaps from hamburger to perm side menu
+  const breakpoint: Breakpoint = "lg"; //This is the point at which it swaps from hamburger to perm side menu
 
   const handleMobileDrawerToggle = () => {
     setMobileDrawerOpen(!mobileDrawerOpen);
@@ -48,11 +48,11 @@ export default function ResponsiveDrawer(props: any) {
           width: {
             [breakpoint]: desktopDrawerOpen
               ? `calc(100% - ${drawerWidth}px)`
-              : "100%"
+              : "100%",
           },
           ml: {
-            [breakpoint]: desktopDrawerOpen ? 0 : `${drawerWidth}px`
-          }
+            [breakpoint]: desktopDrawerOpen ? 0 : `${drawerWidth}px`,
+          },
         }}
       >
         <Toolbar>
@@ -69,8 +69,8 @@ export default function ResponsiveDrawer(props: any) {
               mr: 2,
               display: {
                 [breakpoint]:
-                  matches && desktopDrawerOpen ? "none" : "inline-block"
-              }
+                  matches && desktopDrawerOpen ? "none" : "inline-block",
+              },
             }}
           >
             <MenuIcon />
@@ -93,9 +93,9 @@ export default function ResponsiveDrawer(props: any) {
         component="nav"
         sx={{
           width: {
-            [breakpoint]: desktopDrawerOpen ? drawerWidth : 0
+            [breakpoint]: desktopDrawerOpen ? drawerWidth : 0,
           },
-          flexShrink: { [breakpoint]: 0 }
+          flexShrink: { [breakpoint]: 0 },
         }}
         aria-label="mailbox folders"
       >
@@ -107,14 +107,14 @@ export default function ResponsiveDrawer(props: any) {
           open={mobileDrawerOpen}
           onClose={handleMobileDrawerToggle}
           ModalProps={{
-            keepMounted: true // Better open performance on mobile.
+            keepMounted: true, // Better open performance on mobile.
           }}
           sx={{
             display: { xs: "block", [breakpoint]: "none" },
             "& .MuiDrawer-paper": {
               boxSizing: "border-box",
-              width: drawerWidth
-            }
+              width: drawerWidth,
+            },
           }}
         >
           <Sidebar setDrawerOpen={setMobileDrawerOpen} />
@@ -126,8 +126,8 @@ export default function ResponsiveDrawer(props: any) {
             display: { xs: "none", [breakpoint]: "block" },
             "& .MuiDrawer-paper": {
               boxSizing: "border-box",
-              width: drawerWidth
-            }
+              width: drawerWidth,
+            },
           }}
           open={desktopDrawerOpen}
         >
@@ -138,7 +138,7 @@ export default function ResponsiveDrawer(props: any) {
         component="main"
         sx={{
           flexGrow: 1,
-          p: noPadding ? 0 : 3
+          p: noPadding ? 0 : 3,
         }}
         className="test"
       >
