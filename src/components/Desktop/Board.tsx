@@ -98,6 +98,7 @@ export default function DesktopBoard({
             }}
             component={Grid}
             //i swear.... why you red...
+            //@ts-ignore
             item
             xs={12}
             p={1}
