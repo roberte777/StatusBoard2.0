@@ -1,19 +1,7 @@
-import {
-  Grid,
-  Paper,
-  Typography,
-  IconButton,
-  Collapse,
-  Box,
-} from "@mui/material";
-import React, { useState } from "react";
-import moment from "moment";
-import {
-  ExpandMore as ExpandMoreIcon,
-  ExpandLess as ExpandLessIcon,
-  Edit as EditIcon,
-} from "@mui/icons-material";
-import { boardColumn, StatusBoard } from "statusBoard";
+import React from "react";
+import { Grid, Paper } from "@mui/material";
+import { boardColumn } from "statusBoard";
+import Card from "@/components/Desktop/Card";
 
 type sections = {
   size: number;
@@ -39,9 +27,6 @@ export default function DesktopBoard({
   loading: boolean;
   sx?: any;
 }) {
-  const [boardOpen, setBoardOpen] = useState(false);
-  const [currBoard, setCurrBoard] = useState<StatusBoard>(cards[0]);
-
   return (
     <Grid container sx={sx} gap={2}>
       <Paper component={Grid} item xs={12} container>
@@ -58,70 +43,13 @@ export default function DesktopBoard({
           </Grid>
         ))}
       </Paper>
-      {/* moving into Card comp later. and yes i know they all expand since its one state. deal with it */}
-      {cards.map((card: any, idx: any) => (
-        <Paper component={Grid} item xs={12} container>
-          {columns.map((col: boardColumn) => (
-            <Grid
-              item
-              xs={col.size}
-              key={`${idx}-${col.accessor}`}
-              container
-              alignItems="center"
-              p={1}
-              {...col}
-            >
-              {/* add edit mode in here to remove out of detail (no need for duplicate data)? idk */}
-              {col.accessor === "expand" ? (
-                <IconButton
-                  onClick={() => {
-                    setBoardOpen((curr) => !curr);
-                  }}
-                  size="small"
-                >
-                  {!boardOpen ? <ExpandMoreIcon /> : <ExpandLessIcon />}
-                </IconButton>
-              ) : (
-                // grr. why you red
-                <Typography noWrap variant={col.textVariant}>
-                  {col?.type == "date"
-                    ? moment(card[col.accessor]).format("YYYY/MM/DD")
-                    : card[col.accessor]}
-                </Typography>
-              )}
-            </Grid>
-          ))}
-          <Collapse
-            in={boardOpen}
-            unmountOnExit
-            sx={{
-              backgroundColor: "rgba(127,127, 127, .15)",
-            }}
-            component={Grid}
-            //i swear.... why you red...
-            //@ts-ignore
-            item
-            xs={12}
-            p={1}
-          >
-            {detailSections.map((section) => (
-              <Grid item xs={section.size}>
-                {section.rows.map((row) => (
-                  <row.component
-                    // editMode={editMode}
-                    header={row.header}
-                    accessor={row.accessor}
-                    currBoard={currBoard}
-                    board={card}
-                    setCurrBoard={setCurrBoard}
-                    key={row.accessor}
-                  />
-                ))}
-              </Grid>
-            ))}
-          </Collapse>
-        </Paper>
-      ))}
+      {loading ? (
+        <div>loading...</div> //placeholder
+      ) : (
+        cards.map((card: any, idx: any) => (
+          <Card data={card} columns={columns} detailSections={detailSections} />
+        ))
+      )}
     </Grid>
   );
 }

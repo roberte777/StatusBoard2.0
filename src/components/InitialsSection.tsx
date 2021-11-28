@@ -4,33 +4,24 @@ import { StatusBoard } from "statusBoard";
 import FilledButton from "./FilledButton";
 
 export default function InitialsSection({
-  editMode,
+  readOnly = true,
   header,
-  accessor,
-  currBoard,
-  setCurrBoard,
-  board,
+  value,
+  setEditedValue,
+  key,
+  editedValue,
 }: {
-  editMode: boolean;
+  readOnly?: boolean;
   header: string;
-  accessor: string;
-  currBoard: StatusBoard;
-  board: StatusBoard;
-  setCurrBoard: Dispatch<React.SetStateAction<StatusBoard>>;
+  key: any;
+  setEditedValue: Function;
+  value: any;
+  editedValue?: any;
 }) {
-  if (editMode) {
-    return (
-      <Box sx={{ height: "100%" }}>
-        <Typography>
-          {header}: {currBoard[accessor]}
-        </Typography>
-        <FilledButton>Sign</FilledButton>
-      </Box>
-    );
-  }
   return (
     <Typography>
-      {header}: {board[accessor]}
+      {header}: {value}
+      {!readOnly && <FilledButton>Sign</FilledButton>}
     </Typography>
   );
 }
