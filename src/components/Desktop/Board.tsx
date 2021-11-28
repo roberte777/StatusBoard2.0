@@ -15,14 +15,14 @@ import {
 } from "@mui/icons-material";
 
 //make extensions later?
-type boardColumns = {
-  size: number;
-  header: string;
-  accessor: string;
-  component?: Function;
-  type?: string;
-  textVariant?: string;
-};
+// type boardColumn = {
+//   size: number;
+//   header: string;
+//   accessor: string;
+//   component?: Function;
+//   type?: string;
+//   textVariant?: string;
+// };
 type sections = {
   size: number;
   rows: rows[];
@@ -42,7 +42,7 @@ export default function DesktopBoard({
   sx,
 }: {
   cards: object[];
-  columns: boardColumns[];
+  columns: boardColumn[];
   detailSections: sections[];
   loading: boolean;
   sx?: any;

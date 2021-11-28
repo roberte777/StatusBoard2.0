@@ -1,7 +1,7 @@
 import { db } from "@/firebase/provider";
 import { collection, query } from "@firebase/firestore";
 import { onSnapshot } from "firebase/firestore";
-import { StatusBoard } from "statusBoard";
+import { boardColumn, StatusBoard } from "statusBoard";
 import React, { useEffect, useState, useMemo } from "react";
 import MobileBoard from "@/components/MobileBoard";
 import DesktopBoard from "@/components/Desktop/Board";
@@ -38,7 +38,7 @@ export default function StatusBoardPage() {
     return unsubscribe;
   }, []);
 
-  const desktopColumns = useMemo(
+  const desktopColumns: boardColumn[] = useMemo(
     () => [
       {
         size: 3,

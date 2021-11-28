@@ -40,4 +40,12 @@ declare module "statusBoard" {
     vacType: string;
     id: string;
   };
+  export type boardColumn = {
+    size: number;
+    header: string | JSX.Element;
+    accessor: string;
+    component?: JSX.Element;
+    type?: string;
+    textVariant?: string;
+  };
 }
