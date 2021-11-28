@@ -1,11 +1,10 @@
 import { db } from "@/firebase/provider";
 import { collection, query } from "@firebase/firestore";
-import { Box, Grid, Paper, Typography } from "@mui/material";
 import { onSnapshot } from "firebase/firestore";
-import { StatusBoard, GeneralStatus } from "statusBoard";
-import React, { useEffect, useState } from "react";
+import { StatusBoard } from "statusBoard";
+import React, { useEffect, useState, useMemo } from "react";
 import MobileBoard from "@/components/MobileBoard";
-import DesktopBoard from "@/components/DesktopBoard";
+import DesktopBoard from "@/components/Desktop/Board";
 import {
   FlightTakeoff as FlightTakeoffIcon,
   FlightLand as FlightLandIcon,
@@ -24,7 +23,7 @@ export default function StatusBoardPage() {
         var data = doc.data();
         Object.keys(data).forEach((field: any) => {
           if (typeof data[field] === "object") {
-            data[field] = data[field].toDate();
+            data[field] = data[field].toDate().toISOString();
           }
         });
         boards.push({
@@ -39,71 +38,91 @@ export default function StatusBoardPage() {
     return unsubscribe;
   }, []);
 
+  const desktopColumns = useMemo(
+    () => [
+      {
+        size: 3,
+        header: "Tail Number",
+        accessor: "tailNumber",
+        textVariant: "h4",
+      },
+      {
+        size: 2,
+        header: (
+          <>
+            <FlightTakeoffIcon fontSize="small" sx={{ mr: "5px" }} />
+            Outbound
+          </>
+        ),
+        accessor: "deptDate",
+        type: "date",
+      },
+      {
+        size: 2,
+        header: (
+          <>
+            <FlightLandIcon fontSize="small" sx={{ mr: "5px" }} />
+            Inbound
+          </>
+        ),
+        accessor: "deptDate2",
+        type: "date",
+      },
+      {
+        size: 4,
+        header: (
+          <>
+            <TextSnippetIcon fontSize="small" sx={{ mr: "5px" }} />
+            Notes
+          </>
+        ),
+        accessor: "notes",
+      },
+      {
+        size: 1,
+        header: "Actions",
+        accessor: "expand",
+        justifyContent: "flex-end",
+      },
+    ],
+    []
+  );
+
+  const desktopDetailSections = useMemo(() => [], []); //wip
+
   return (
-    <Grid container spacing={1}>
-      <Grid item xs={12}>
-        <Paper
+    <>
+      <DesktopBoard
+        cards={statusBoards}
+        // grr. why you red
+        columns={desktopColumns}
+        detailSections={desktopDetailSections}
+        sx={{
+          display: {
+            xs: "none",
+            md: "flex",
+          },
+        }}
+        loading={dataLoading}
+      />
+      {/* wip for mobile */}
+      {statusBoards.map((board) => (
+        <MobileBoard
+          board={board}
+          key={`${board.tailNumber}sm`}
           sx={{
-            p: "0px 16px",
-            display: { xs: "none", sm: "block" },
+            display: {
+              xs: "block",
+              md: "none",
+            },
+            borderRadius: "16px",
           }}
-        >
-          <Grid container>
-            <Grid item xs={3} sx={{ display: "flex" }}>
-              Tail Number
-            </Grid>
-            <Grid item xs={2} sx={{ display: "flex" }}>
-              <FlightTakeoffIcon fontSize="small" sx={{ mr: "5px" }} />
-              Outbound
-            </Grid>
-            <Grid item xs={2} sx={{ display: "flex" }}>
-              <FlightLandIcon fontSize="small" sx={{ mr: "5px" }} />
-              Inbound
-            </Grid>
-            <Grid item xs={2} sx={{ display: "flex" }}>
-              <TextSnippetIcon fontSize="small" sx={{ mr: "5px" }} />
-              Notes
-            </Grid>
-            <Grid
-              item
-              xs={3}
-              sx={{ justifyContent: "center", display: "flex" }}
-            >
-              <Typography>Actions</Typography>
-            </Grid>
-          </Grid>
-        </Paper>
-      </Grid>
-      {statusBoards.map((board: StatusBoard, idx: number) => (
-        <Grid item xs={12} key={idx}>
-          <MobileBoard
-            board={board}
-            key={`${board.tailNumber}sm`}
-            sx={{
-              display: {
-                xs: "block",
-                sm: "none",
-              },
-              borderRadius: "16px",
-            }}
-            dataLoading={dataLoading}
-          />
-          <DesktopBoard
-            board={board}
-            key={board.tailNumber}
-            sx={{
-              display: {
-                xs: "none",
-                sm: "block",
-              },
-            }}
-            dataLoading={dataLoading}
-          />
-        </Grid>
+          dataLoading={dataLoading}
+        />
       ))}
-    </Grid>
+    </>
   );
 }
 StatusBoardPage.title = "Status Board";
-StatusBoardPage.auth = true;
-StatusBoardPage.roles = ["employee", "admin"];
+// StatusBoardPage.auth = true;
+// StatusBoardPage.roles = ["employee", "admin"];
