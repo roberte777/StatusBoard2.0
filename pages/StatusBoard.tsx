@@ -10,6 +10,9 @@ import {
   FlightLand as FlightLandIcon,
   TextSnippet as TextSnippetIcon,
 } from "@mui/icons-material";
+import DateSection from "@/components/DateSection";
+import InitialsSection from "@/components/InitialsSection";
+import TextSection from "@/components/TextSection";
 
 export default function StatusBoardPage() {
   const [statusBoards, setStatusBoards] = useState<StatusBoard[]>([]);
@@ -88,7 +91,111 @@ export default function StatusBoardPage() {
     []
   );
 
-  const desktopDetailSections = useMemo(() => [], []); //wip
+  const desktopDetailSections = useMemo(
+    () => [
+      {
+        size: 3,
+        rows: [
+          {
+            header: "Departure",
+            accessor: "deptDate",
+            component: DateSection,
+          },
+          {
+            header: "Crew",
+            accessor: "crew",
+            component: InitialsSection,
+          },
+          {
+            header: "Fuel",
+            accessor: "fuel",
+            component: TextSection,
+          },
+          {
+            header: "C/W",
+            accessor: "cw",
+            component: InitialsSection,
+          },
+        ],
+      },
+      {
+        size: 3,
+        rows: [
+          {
+            header: "Departure",
+            accessor: "deptDate2",
+            component: DateSection,
+          },
+          {
+            header: "Crew",
+            accessor: "crew2",
+            component: InitialsSection,
+          },
+          {
+            header: "Fuel",
+            accessor: "fuel2",
+            component: TextSection,
+          },
+          {
+            header: "C/W",
+            accessor: "cw2",
+            component: InitialsSection,
+          },
+        ],
+      },
+      {
+        size: 3,
+        rows: [
+          {
+            header: "Posted",
+            accessor: "posted",
+            component: DateSection,
+          },
+          {
+            header: "Fueled",
+            accessor: "fueled",
+            component: DateSection,
+          },
+          {
+            header: "Tires Mon & Fri",
+            accessor: "tires",
+            component: DateSection,
+          },
+          {
+            header: "Lav",
+            accessor: "lav",
+            component: DateSection,
+          },
+        ],
+      },
+      {
+        size: 3,
+        rows: [
+          {
+            header: "Routine Cleaning",
+            accessor: "routine",
+            component: DateSection,
+          },
+          {
+            header: "Detailed Cleaning",
+            accessor: "detailed",
+            component: DateSection,
+          },
+          {
+            header: "MEL Status",
+            accessor: "MEL",
+            component: TextSection,
+          },
+          {
+            header: "Notes",
+            accessor: "notes",
+            component: TextSection,
+          },
+        ],
+      },
+    ],
+    []
+  ); //wip
 
   return (
     <>

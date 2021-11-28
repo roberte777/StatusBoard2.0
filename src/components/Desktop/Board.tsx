@@ -13,7 +13,7 @@ import {
   ExpandLess as ExpandLessIcon,
   Edit as EditIcon,
 } from "@mui/icons-material";
-import { boardColumn } from "statusBoard";
+import { boardColumn, StatusBoard } from "statusBoard";
 
 type sections = {
   size: number;
@@ -40,6 +40,7 @@ export default function DesktopBoard({
   sx?: any;
 }) {
   const [boardOpen, setBoardOpen] = useState(false);
+  const [currBoard, setCurrBoard] = useState<StatusBoard>(cards[0]);
 
   return (
     <Grid container sx={sx} gap={2}>
@@ -106,7 +107,15 @@ export default function DesktopBoard({
             {detailSections.map((section) => (
               <Grid item xs={section.size}>
                 {section.rows.map((row) => (
-                  <row.component />
+                  <row.component
+                    // editMode={editMode}
+                    header={row.header}
+                    accessor={row.accessor}
+                    currBoard={currBoard}
+                    board={card}
+                    setCurrBoard={setCurrBoard}
+                    key={row.accessor}
+                  />
                 ))}
               </Grid>
             ))}
