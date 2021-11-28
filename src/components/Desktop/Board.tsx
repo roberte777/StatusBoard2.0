@@ -13,16 +13,8 @@ import {
   ExpandLess as ExpandLessIcon,
   Edit as EditIcon,
 } from "@mui/icons-material";
+import { boardColumn } from "statusBoard";
 
-//make extensions later?
-// type boardColumn = {
-//   size: number;
-//   header: string;
-//   accessor: string;
-//   component?: Function;
-//   type?: string;
-//   textVariant?: string;
-// };
 type sections = {
   size: number;
   rows: rows[];
@@ -52,7 +44,7 @@ export default function DesktopBoard({
   return (
     <Grid container sx={sx} gap={2}>
       <Paper component={Grid} item xs={12} container>
-        {columns.map((col: boardColumns) => (
+        {columns.map((col: boardColumn) => (
           <Grid
             item
             xs={col.size}
@@ -68,7 +60,7 @@ export default function DesktopBoard({
       {/* moving into Card comp later. and yes i know they all expand since its one state. deal with it */}
       {cards.map((card: any, idx: any) => (
         <Paper component={Grid} item xs={12} container>
-          {columns.map((col: boardColumns) => (
+          {columns.map((col: boardColumn) => (
             <Grid
               item
               xs={col.size}

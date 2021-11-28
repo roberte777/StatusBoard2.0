@@ -94,7 +94,6 @@ export default function StatusBoardPage() {
     <>
       <DesktopBoard
         cards={statusBoards}
-        // grr. why you red
         columns={desktopColumns}
         detailSections={desktopDetailSections}
         sx={{
