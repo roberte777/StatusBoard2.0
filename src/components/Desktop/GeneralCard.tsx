@@ -40,47 +40,37 @@ export default function DesktopCard({
   // console.log(JSON.stringify(data));
   return (
     <Paper component={Grid} item xs={12} container>
-      <Grid
-        item
-        xs={3}
-        alignItems="center"
-        p={1}
-        sx={{ bgcolor: "secondary.main" }}
-      >
+      <Grid item xs={3} alignItems="center" p={1} sx={{}}>
         <Typography noWrap variant="h4">
           {" "}
           General Status
         </Typography>
       </Grid>
-      <Grid
-        item
-        xs={3}
-        alignItems="center"
-        p={1}
-        sx={{ bgcolor: "secondary.main" }}
-      >
-        <Typography noWrap variant="h4">
-          {moment(data.fd).format("YYYY/MM/DD")}
-        </Typography>
+      <Grid item xs={2} alignItems="center" p={1} sx={{ display: "flex" }}>
+        <Typography noWrap>{moment(data.fd).format("YYYY/MM/DD")}</Typography>
       </Grid>
-      <Grid
-        item
-        xs={3}
-        alignItems="center"
-        p={1}
-        sx={{ bgcolor: "secondary.main" }}
-      >
-        <Typography noWrap variant="h4">
+      <Grid item xs={2} alignItems="center" p={1} sx={{ display: "flex" }}>
+        <Typography noWrap>
           {moment(data.fuelFarmDate).format("YYYY/MM/DD")}
         </Typography>
       </Grid>
       <Grid
         item
-        xs={3}
+        xs={4}
         container
         alignItems="center"
         p={1}
-        sx={{ bgcolor: "secondary.main" }}
+        sx={{ display: "flex" }}
+      >
+        <Typography noWrap>{data.notes}</Typography>
+      </Grid>
+      <Grid
+        item
+        xs={1}
+        container
+        alignItems="center"
+        p={1}
+        sx={{ justifyContent: "end", display: "flex" }}
       >
         <IconButton
           onClick={() => {
@@ -136,7 +126,7 @@ export default function DesktopCard({
               <Button
                 variant="contained"
                 onClick={async () => {
-                  const boardRef = doc(db, "Boards", data.id);
+                  const boardRef = doc(db, "General Status", data.id);
                   await updateDoc(boardRef, edits).then().catch();
                   setEditable((curr) => !curr);
                 }}
