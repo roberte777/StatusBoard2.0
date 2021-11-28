@@ -13,6 +13,7 @@ import {
 import DateSection from "@/components/DateSection";
 import InitialsSection from "@/components/InitialsSection";
 import TextSection from "@/components/TextSection";
+import Loading from "@/components/Loading";
 type rows = {
   component: Function;
   header: string;
@@ -21,12 +22,13 @@ type rows = {
 
 export default function StatusBoardPage() {
   const [statusBoards, setStatusBoards] = useState<StatusBoard[]>([]);
-  const [generalStatus, setGeneralStatus] = useState<GeneralStatus>({});
-  const [dataLoading, setDataLoading] = useState<boolean>(false);
+  const [generalStatus, setGeneralStatus] = useState<GeneralStatus | {}>({});
+  const [boardsLoading, setBoardsLoading] = useState<boolean>(true);
+  const [generalLoading, setGeneralLoading] = useState<boolean>(true);
   useEffect(() => {
+    setBoardsLoading(true);
     const q = query(collection(db, "Boards"));
     const unsubscribe = onSnapshot(q, async (querySnapshot) => {
-      setDataLoading(true);
       let boards: StatusBoard[] = [];
       querySnapshot.forEach(async (doc) => {
         var data = doc.data();
@@ -42,15 +44,15 @@ export default function StatusBoardPage() {
       });
 
       setStatusBoards(boards);
-      setDataLoading(false);
     });
+    setBoardsLoading(false);
 
     return unsubscribe;
   }, []);
   useEffect(() => {
+    setGeneralLoading(true);
     const general = doc(db, "General Status", "General Status");
     const unsub = onSnapshot(general, (doc) => {
-      setDataLoading(true);
       var data = doc.data()!;
       Object.keys(data).forEach((field: any) => {
         if (typeof data[field] === "object") {
@@ -58,10 +60,9 @@ export default function StatusBoardPage() {
         }
       });
       data = { ...data, id: doc.id };
-      console.log(data);
       setGeneralStatus(data as GeneralStatus);
-      setDataLoading(false);
     });
+    setGeneralLoading(false);
     return unsub;
   }, []);
 
@@ -275,7 +276,12 @@ export default function StatusBoardPage() {
       },
     ],
     []
-  ); //wip
+  );
+
+  if (boardsLoading || generalLoading) {
+    console.log("test");
+    return <Loading />;
+  }
 
   return (
     <>
@@ -291,7 +297,7 @@ export default function StatusBoardPage() {
             md: "flex",
           },
         }}
-        loading={dataLoading}
+        loading={generalLoading && boardsLoading}
       />
       {/* wip for mobile */}
       {statusBoards.map((board) => (
@@ -305,7 +311,7 @@ export default function StatusBoardPage() {
             },
             borderRadius: "16px",
           }}
-          dataLoading={dataLoading}
+          dataLoading={generalLoading && boardsLoading}
         />
       ))}
     </>

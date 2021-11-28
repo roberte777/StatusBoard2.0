@@ -3,6 +3,7 @@ import { Grid, Paper } from "@mui/material";
 import { boardColumn, GeneralStatus, sections, StatusBoard } from "statusBoard";
 import Card from "@/components/Desktop/Card";
 import GeneralCard from "./GeneralCard";
+import Loading from "../Loading";
 
 type rows = {
   component: Function;
@@ -21,7 +22,7 @@ export default function DesktopBoard({
 }: {
   cards: StatusBoard[];
   columns: boardColumn[];
-  general: GeneralStatus;
+  general: GeneralStatus | {};
   detailSections: sections[];
   generalSections: sections[];
   loading: boolean;
@@ -44,10 +45,13 @@ export default function DesktopBoard({
         ))}
       </Paper>
       {loading ? (
-        <div>loading...</div> //placeholder
+        <Loading /> //placeholder
       ) : (
         <>
-          <GeneralCard data={general} detailSections={generalSections} />
+          <GeneralCard
+            data={general as GeneralStatus}
+            detailSections={generalSections}
+          />
 
           {cards.map((card: StatusBoard) => (
             <Card
