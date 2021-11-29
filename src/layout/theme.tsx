@@ -7,7 +7,9 @@ const generateTheme = (mode: PaletteMode) => ({
     ...(mode === "light"
       ? {
           primary: { main: "#DB5461" },
-          secondary: { main: "#FFD9CE" },
+          // secondary: { main: "#FFD9CE" },
+          secondary: { main: "#8894AA" },
+
           action: { active: "#2FD3C2" },
         }
       : {

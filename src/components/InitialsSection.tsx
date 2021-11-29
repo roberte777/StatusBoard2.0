@@ -35,6 +35,7 @@ export default function InitialsSection({
               setEditedValue(initials);
             }
           }}
+          sx={{ ml: 1 }}
         >
           Sign
         </FilledButton>

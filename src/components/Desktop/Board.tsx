@@ -30,7 +30,13 @@ export default function DesktopBoard({
 }) {
   return (
     <Grid container sx={sx} gap={2}>
-      <Paper component={Grid} item xs={12} container>
+      <Paper
+        component={Grid}
+        item
+        xs={12}
+        container
+        sx={{ bgcolor: "secondary.main" }}
+      >
         {columns.map((col: boardColumn) => (
           <Grid
             item

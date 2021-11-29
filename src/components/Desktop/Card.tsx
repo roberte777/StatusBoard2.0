@@ -55,14 +55,21 @@ export default function DesktopCard({
         >
           {/* add edit mode in here to remove out of detail (no need for duplicate data)? idk */}
           {col.accessor === "expand" ? (
-            <IconButton
-              onClick={() => {
-                setBoardOpen((curr) => !curr);
-              }}
-              size="small"
-            >
-              {!boardOpen ? <ExpandMoreIcon /> : <ExpandLessIcon />}
-            </IconButton>
+            <>
+              {!editable && (
+                <IconButton onClick={() => setEditable(true)}>
+                  <EditIcon />
+                </IconButton>
+              )}
+              <IconButton
+                onClick={() => {
+                  setBoardOpen((curr) => !curr);
+                }}
+                size="small"
+              >
+                {!boardOpen ? <ExpandMoreIcon /> : <ExpandLessIcon />}
+              </IconButton>
+            </>
           ) : (
             // grr. why you red
             <Typography noWrap variant={col.textVariant}>
@@ -107,8 +114,16 @@ export default function DesktopCard({
               </Stack>
             </Grid>
           ))}
-          {editable ? (
-            <>
+          {editable && (
+            <Grid
+              item
+              xs={12}
+              sx={{
+                display: "flex",
+                justifyContent: "flex-end",
+                "& button": { m: 2 },
+              }}
+            >
               <Button
                 variant="contained"
                 onClick={async () => {
@@ -128,9 +143,7 @@ export default function DesktopCard({
               >
                 Cancel
               </Button>
-            </>
-          ) : (
-            <Button onClick={() => setEditable(true)}>Edit</Button>
+            </Grid>
           )}
         </Grid>
       </Collapse>
