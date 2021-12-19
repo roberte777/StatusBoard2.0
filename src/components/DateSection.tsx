@@ -1,50 +1,41 @@
-import { Box, TextField, Typography } from "@mui/material";
+import { Box, Input, TextField, Typography } from "@mui/material";
 import React, { Dispatch } from "react";
 import { StatusBoard } from "statusBoard";
 import DateTimePicker from "@mui/lab/DateTimePicker";
-import { getDateTimeString } from "@/constants/dateFunctions";
+import moment from "moment";
 
 export default function DateSection({
-  editMode,
+  readOnly = true,
   header,
-  accessor,
-  setCurrBoard,
-  currBoard,
-  board,
+  value,
+  setEditedValue,
+  key,
+  editedValue,
 }: {
-  editMode: boolean;
+  readOnly?: boolean;
   header: string;
-  accessor: string;
-  currBoard: StatusBoard;
-  board: StatusBoard;
-  setCurrBoard: Dispatch<React.SetStateAction<StatusBoard>>;
+  key: any;
+  setEditedValue: Function;
+  value: any;
+  editedValue?: any;
 }) {
-  if (editMode) {
-    return (
-      <Box>
-        <Typography sx={{ display: "flex", alignItems: "center" }}>
-          {header}:{" "}
-        </Typography>
-        <DateTimePicker
-          renderInput={(props) => <TextField {...props} />}
-          label="test"
-          value={new Date(currBoard[accessor])}
-          onChange={(newValue) => {
-            setCurrBoard({
-              ...currBoard,
-              [accessor]: newValue,
-            } as StatusBoard);
-          }}
-        />
-      </Box>
-    );
-  }
   return (
     <Typography>
       {header}:{" "}
-      {board[accessor]
-        ? getDateTimeString(board[accessor] as unknown as Date)
-        : "None"}
+      <DateTimePicker
+        renderInput={(props: any) => (
+          <Input
+            endAdornment={!readOnly && props.InputProps.endAdornment}
+            {...props}
+            multiline
+            disableUnderline={readOnly}
+            readOnly={readOnly}
+          />
+        )}
+        value={editedValue || new Date(value)}
+        onChange={(val) => setEditedValue(val)}
+      />
+      {/* {value ? moment(value).format("YYYY/MM/DD h:mm a") : "None"} */}
     </Typography>
   );
 }

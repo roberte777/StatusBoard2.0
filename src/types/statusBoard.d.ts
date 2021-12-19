@@ -28,16 +28,41 @@ declare module "statusBoard" {
     id: string;
   }
   export type GeneralStatus = {
-    fd: string;
-    fdt: Date;
+    [fd: string]: Date;
     fuelFarmDate: Date;
     fuelFarmInitials: string;
-    fuelFarmTime: Date;
     notes: string;
     vacComment: string;
     vacDate: string;
-    vacTime: Date;
     vacType: string;
     id: string;
+  };
+  export type boardColumn = {
+    size: number;
+    header: string | JSX.Element;
+    accessor: string;
+    component?: JSX.Element;
+    type?: string;
+    textVariant?:
+      | "button"
+      | "caption"
+      | "h1"
+      | "h2"
+      | "h3"
+      | "h4"
+      | "h5"
+      | "h6"
+      | "inherit"
+      | "overline"
+      | "subtitle1"
+      | "subtitle2"
+      | "body1"
+      | "body2"
+      | undefined;
+  };
+  type sections = {
+    size: number;
+    rows: rows[];
+    component?: Function;
   };
 }

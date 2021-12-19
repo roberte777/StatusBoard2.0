@@ -1,39 +1,32 @@
-import { ListItem, TextField, Typography } from "@mui/material";
-import React, { Dispatch } from "react";
+import { ListItem, TextField, Typography, Input } from "@mui/material";
+import React, { Dispatch, useEffect } from "react";
 import { StatusBoard } from "statusBoard";
 
 export default function TextSection({
-  editMode,
+  readOnly = true,
   header,
-  accessor,
-  currBoard,
-  board,
-  setCurrBoard,
+  value,
+  setEditedValue,
+  key,
+  editedValue,
 }: {
-  editMode: boolean;
+  readOnly?: boolean;
   header: string;
-  accessor: string;
-  currBoard: StatusBoard;
-  board: StatusBoard;
-  setCurrBoard: Dispatch<React.SetStateAction<StatusBoard>>;
+  key: any;
+  setEditedValue: Function;
+  value: any;
+  editedValue?: any;
 }) {
-  if (editMode) {
-    return (
-      <Typography sx={{ display: "flex", alignItems: "center" }}>
-        {header}:
-        <TextField
-          value={currBoard[accessor]}
-          onChange={(e) =>
-            setCurrBoard({ ...currBoard, [accessor]: e.target.value })
-          }
-          sx={{ ml: "10px" }}
-        />
-      </Typography>
-    );
-  }
   return (
-    <Typography>
-      {header}: {board[accessor]}
+    <Typography key={key}>
+      {header}:{" "}
+      <Input
+        disableUnderline={readOnly}
+        readOnly={readOnly}
+        value={editedValue ?? value}
+        multiline
+        onChange={({ target }) => setEditedValue(target.value)}
+      />
     </Typography>
   );
 }

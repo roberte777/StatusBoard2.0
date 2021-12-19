@@ -18,21 +18,22 @@ export default async (req: Request, res: Response) => {
 
               await firebaseAdmin.auth().setCustomUserClaims(user.uid, {
                 ...oldCustomClaims,
-                [role]: !remove
+                [role]: !remove,
               });
               if (idx === array.length - 1) resolve(null);
             }
           );
         });
-        bar.then(() =>
-          res.end(
+        await bar.then(() =>
+          res.status(200).send(
             JSON.stringify({
-              status: "success"
+              status: "success",
             })
           )
         );
         break;
       default:
+        console.log("test");
         break;
     }
   } catch (e) {

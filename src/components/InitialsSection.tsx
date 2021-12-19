@@ -1,36 +1,45 @@
 import { Box, Typography } from "@mui/material";
+import { getAuth } from "firebase/auth";
 import React, { Dispatch } from "react";
+import { useAuthState } from "react-firebase-hooks/auth";
 import { StatusBoard } from "statusBoard";
 import FilledButton from "./FilledButton";
 
 export default function InitialsSection({
-  editMode,
+  readOnly = true,
   header,
-  accessor,
-  currBoard,
-  setCurrBoard,
-  board,
+  value,
+  setEditedValue,
+  key,
+  editedValue,
 }: {
-  editMode: boolean;
+  readOnly?: boolean;
   header: string;
-  accessor: string;
-  currBoard: StatusBoard;
-  board: StatusBoard;
-  setCurrBoard: Dispatch<React.SetStateAction<StatusBoard>>;
+  key: any;
+  setEditedValue: Function;
+  value: any;
+  editedValue?: any;
 }) {
-  if (editMode) {
-    return (
-      <Box sx={{ height: "100%" }}>
-        <Typography>
-          {header}: {currBoard[accessor]}
-        </Typography>
-        <FilledButton>Sign</FilledButton>
-      </Box>
-    );
+  const [user, loading] = useAuthState(getAuth());
+  if (loading) {
+    return <>Loading...</>;
   }
   return (
     <Typography>
-      {header}: {board[accessor]}
+      {header}: {editedValue || value}
+      {!readOnly && (
+        <FilledButton
+          onClick={() => {
+            if (user) {
+              var initials = user?.displayName!.match(/\b(\w)/g)?.join("");
+              setEditedValue(initials);
+            }
+          }}
+          sx={{ ml: 1 }}
+        >
+          Sign
+        </FilledButton>
+      )}
     </Typography>
   );
 }
