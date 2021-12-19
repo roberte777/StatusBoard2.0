@@ -1,5 +1,5 @@
 import "../styles/globals.css";
-import Layout from "../src/layout/layout";
+import Layout from "../src/layout/Layout";
 import { NextComponentType, NextPageContext } from "next";
 import ThemeProvdiers from "../src/layout/Providers/ThemeProviders";
 import React, { useEffect, useState } from "react";
