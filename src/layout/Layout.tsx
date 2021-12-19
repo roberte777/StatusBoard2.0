@@ -13,7 +13,7 @@ import {
   Box,
   AppBar,
 } from "@mui/material";
-import Sidebar from "./components/sidebar";
+import Sidebar from "./components/Sidebar";
 import { useTheme } from "@mui/material/styles";
 import useMediaQuery from "@mui/material/useMediaQuery";
 import DarkModeSwitch from "./components/darkModeSwitch";
