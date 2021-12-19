@@ -1,5 +1,5 @@
 import React, { useContext } from "react";
-import AvatarSection from "./components/avatarSection";
+import AvatarSection from "./components/AvatarSection";
 import { ColorModeContext } from "./Providers/ThemeProviders";
 import MenuIcon from "@mui/icons-material/Menu";
 import {
