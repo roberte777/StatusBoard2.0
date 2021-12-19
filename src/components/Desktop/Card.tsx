@@ -15,7 +15,7 @@ import {
   ExpandLess as ExpandLessIcon,
   Edit as EditIcon,
 } from "@mui/icons-material";
-import { boardColumn, GeneralStatus, sections, StatusBoard } from "statusBoard";
+import { boardColumn, sections, StatusBoard } from "statusBoard";
 import { doc, updateDoc } from "firebase/firestore";
 import { db } from "@/firebase/provider";
 
@@ -31,7 +31,7 @@ export default function DesktopCard({
   detailSections,
   sx,
 }: {
-  data: StatusBoard | GeneralStatus;
+  data: StatusBoard;
   columns: boardColumn[];
   detailSections: sections[];
   sx?: any;

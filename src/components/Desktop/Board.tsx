@@ -36,6 +36,7 @@ export default function DesktopBoard({
         xs={12}
         container
         sx={{ bgcolor: "secondary.main" }}
+        className="column-header-section"
       >
         {columns.map((col: boardColumn) => (
           <Grid

@@ -3,7 +3,7 @@ import { collection, query } from "@firebase/firestore";
 import { doc, onSnapshot } from "firebase/firestore";
 import { boardColumn, GeneralStatus, sections, StatusBoard } from "statusBoard";
 import React, { useEffect, useState, useMemo } from "react";
-import MobileBoard from "@/components/MobileBoard";
+import MobileBoard from "@/components/Mobile/Board";
 import DesktopBoard from "@/components/Desktop/Board";
 import {
   FlightTakeoff as FlightTakeoffIcon,
@@ -22,7 +22,9 @@ type rows = {
 
 export default function StatusBoardPage() {
   const [statusBoards, setStatusBoards] = useState<StatusBoard[]>([]);
-  const [generalStatus, setGeneralStatus] = useState<GeneralStatus | {}>({});
+  const [generalStatus, setGeneralStatus] = useState<GeneralStatus>(
+    {} as GeneralStatus
+  );
   const [boardsLoading, setBoardsLoading] = useState<boolean>(true);
   const [generalLoading, setGeneralLoading] = useState<boolean>(true);
   useEffect(() => {
@@ -299,23 +301,21 @@ export default function StatusBoardPage() {
         loading={generalLoading || boardsLoading}
       />
       {/* wip for mobile */}
-      {statusBoards.map((board) => (
-        <MobileBoard
-          board={board}
-          key={`${board.tailNumber}sm`}
-          sx={{
-            display: {
-              xs: "block",
-              md: "none",
-            },
-            borderRadius: "16px",
-          }}
-          dataLoading={generalLoading || boardsLoading}
-        />
-      ))}
+      <MobileBoard
+        cards={statusBoards}
+        columns={desktopColumns}
+        detailSections={desktopDetailSections}
+        generalSections={generalSections}
+        general={generalStatus}
+        sx={{
+          display: {
+            xs: "flex",
+            md: "none",
+          },
+        }}
+        loading={generalLoading || boardsLoading}
+      />
     </>
   );
 }
 StatusBoardPage.title = "Status Board";
-// StatusBoardPage.auth = true;
-// StatusBoardPage.roles = ["employee", "admin"];

@@ -10,12 +10,12 @@ import {
 } from "@mui/material";
 import { Edit as EditIcon } from "@mui/icons-material";
 import React, { useState } from "react";
-import { StatusBoard } from "statusBoard";
+import { GeneralStatus, StatusBoard } from "statusBoard";
 import SwipeableViews from "react-swipeable-views";
-import TextSection from "./TextSection";
-import DateSection from "./DateSection";
-import InitialsSection from "./InitialsSection";
-import Loading from "./Loading";
+import TextSection from "../TextSection";
+import DateSection from "../DateSection";
+import InitialsSection from "../InitialsSection";
+import Loading from "../Loading";
 import { doc } from "@firebase/firestore";
 import { db } from "@/firebase/provider";
 import { updateDoc } from "firebase/firestore";
@@ -118,17 +118,17 @@ const boardMapping4: boardMapping[] = [
 const mappingArr = [boardMapping1, boardMapping2, boardMapping3, boardMapping4];
 
 export default function PlaneBoard({
-  board,
+  data,
   sx,
   dataLoading,
 }: {
-  board: StatusBoard;
+  data: StatusBoard;
   sx?: object;
   dataLoading: boolean;
 }) {
   const [activeStep, setActiveStep] = useState(0);
-  const [editMode, setEditMode] = useState<boolean>(false);
-  const [currBoard, setCurrBoard] = useState<StatusBoard>(board);
+  const [edits, setEdits] = useState<{ [key: string]: any }>({});
+  const [editable, setEditable] = useState<boolean>(false);
 
   if (dataLoading) {
     return <Loading />;
@@ -137,9 +137,9 @@ export default function PlaneBoard({
     <Paper sx={{ ...sx }} elevation={6}>
       <Box sx={{ pl: 1, pr: 1, pt: 1 }}>
         <Typography variant="h6">
-          {board.tailNumber}{" "}
+          {data.tailNumber}
           <IconButton
-            onClick={() => setEditMode(!editMode)}
+            onClick={() => setEditable(!editable)}
             sx={{ float: "right" }}
           >
             <EditIcon />
@@ -154,28 +154,32 @@ export default function PlaneBoard({
         >
           {mappingArr.map((mapping) => (
             <Grid container style={Object.assign({})}>
-              {mapping.map((item) => (
+              {mapping.map((row) => (
                 <Grid item xs={12}>
-                  <item.component
-                    editMode={editMode}
-                    header={item.header}
-                    accessor={item.accessor}
-                    currBoard={currBoard}
-                    board={board}
-                    setCurrBoard={setCurrBoard}
-                    key={item.accessor}
+                  <row.component
+                    readOnly={!editable}
+                    header={row.header}
+                    value={data[row.accessor]}
+                    editedValue={edits[row.accessor]}
+                    setEditedValue={(value: typeof row.accessor) =>
+                      setEdits((curr: any) => ({
+                        ...curr,
+                        [row.accessor]: value,
+                      }))
+                    }
+                    key={row.accessor}
                   />
                 </Grid>
               ))}
             </Grid>
           ))}
         </SwipeableViews>
-        {editMode && (
+        {editable && (
           <Button
             onClick={async () => {
-              const boardRef = doc(db, "Boards", board.id);
-              await updateDoc(boardRef, currBoard);
-              setEditMode(false);
+              const boardRef = doc(db, "Boards", data.id);
+              await updateDoc(boardRef, edits).then().catch();
+              setEditable((curr) => !curr);
             }}
           >
             Save
