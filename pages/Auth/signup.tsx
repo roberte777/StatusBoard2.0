@@ -5,7 +5,7 @@ import { styled } from "@mui/material/styles";
 import {
   createUserWithEmailAndPassword,
   getAuth,
-  updateProfile
+  updateProfile,
 } from "firebase/auth";
 import { useAuthState } from "react-firebase-hooks/auth";
 
@@ -18,16 +18,16 @@ const SignupForm = styled("form")(({ theme }) => ({
 
   "& .MuiTextField-root": {
     margin: theme.spacing(1),
-    width: "300px"
+    width: "300px",
   },
   "& .MuiButtonBase-root": {
-    margin: theme.spacing(2)
-  }
+    margin: theme.spacing(2),
+  },
 }));
 
 const Form = () => {
   // create state variables for each input
-  const [user, loading] = useAuthState(getAuth());
+  const [loading] = useAuthState(getAuth());
   const [firstName, setFirstName] = useState("");
   const [middleName, setMiddleName] = useState("");
   const [lastName, setLastName] = useState("");
@@ -42,12 +42,13 @@ const Form = () => {
     await createUserWithEmailAndPassword(auth, email, password)
       .then(async () => {
         await updateProfile(auth.currentUser!, {
-          displayName: `${firstName} ${middleName} ${lastName}`
+          displayName: `${firstName} ${middleName} ${lastName}`,
         }).then(() => setCreatingUser(false));
       })
       .catch((error) => {
-        const errorCode = error.code;
-        const errorMessage = error.message;
+        console.error(error);
+        // const errorCode = error.code;
+        // const errorMessage = error.message;
         // ..
       });
   };

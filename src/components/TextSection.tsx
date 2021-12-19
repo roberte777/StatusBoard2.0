@@ -1,6 +1,5 @@
-import { ListItem, TextField, Typography, Input } from "@mui/material";
-import React, { Dispatch, useEffect } from "react";
-import { StatusBoard } from "statusBoard";
+import { Typography, Input } from "@mui/material";
+import React from "react";
 
 export default function TextSection({
   readOnly = true,

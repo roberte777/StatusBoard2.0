@@ -28,7 +28,7 @@ const Form = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [loggingIn, setLoggingIn] = useState(false);
-  const [user, loading] = useAuthState(auth);
+  const [loading] = useAuthState(auth);
   const router = useRouter();
 
   const handleSubmit = async (e: any) => {
@@ -78,7 +78,7 @@ const Form = () => {
         </Button>
       </div>
       <Typography>
-        Don't have an account?{" "}
+        Don&apos;t have an account?
         <Link href={"/Auth/signup"}>
           <a style={{ textDecoration: "none" }}>
             <Button variant="contained" color="primary">

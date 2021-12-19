@@ -87,7 +87,7 @@ const StyledMenu = styled((props: MenuProps) => (
   },
 }));
 
-export default function index() {
+export default function Index() {
   const [users, setUsers] = useState<[] | User[]>([]);
   const [dataLoading, setDataLoading] = useState(false);
   const [selectionModel, setSelectionModel] = useState<User[]>([]);
@@ -107,7 +107,7 @@ export default function index() {
   };
   const editRole = async (remove: boolean, role: "admin" | "employee") => {
     setDataLoading(true);
-    const resp = await (
+    await (
       await fetch("/api/Roles", {
         method: "POST",
         body: JSON.stringify({ users: selectionModel, remove, role }),
@@ -258,6 +258,6 @@ export default function index() {
     </div>
   );
 }
-index.title = "Admin";
-index.auth = true;
-index.roles = ["admin"];
+Index.title = "Admin";
+Index.auth = true;
+Index.roles = ["admin"];

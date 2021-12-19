@@ -14,11 +14,6 @@ import DateSection from "@/components/DateSection";
 import InitialsSection from "@/components/InitialsSection";
 import TextSection from "@/components/TextSection";
 import Loading from "@/components/Loading";
-type rows = {
-  component: Function;
-  header: string;
-  accessor: string;
-};
 
 export default function StatusBoardPage() {
   const [statusBoards, setStatusBoards] = useState<StatusBoard[]>([]);
@@ -303,9 +298,6 @@ export default function StatusBoardPage() {
       {/* wip for mobile */}
       <MobileBoard
         cards={statusBoards}
-        columns={desktopColumns}
-        detailSections={desktopDetailSections}
-        generalSections={generalSections}
         general={generalStatus}
         sx={{
           display: {

@@ -1,4 +1,3 @@
-import { grey, lightBlue } from "@mui/material/colors";
 type PaletteMode = "light" | "dark";
 
 const generateTheme = (mode: PaletteMode) => ({

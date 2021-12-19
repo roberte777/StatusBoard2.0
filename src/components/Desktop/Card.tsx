@@ -4,11 +4,10 @@ import {
   Typography,
   IconButton,
   Collapse,
-  Box,
   Button,
   Stack,
 } from "@mui/material";
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import moment from "moment";
 import {
   ExpandMore as ExpandMoreIcon,
@@ -18,12 +17,6 @@ import {
 import { boardColumn, sections, StatusBoard } from "statusBoard";
 import { doc, updateDoc } from "firebase/firestore";
 import { db } from "@/firebase/provider";
-
-type rows = {
-  component: Function;
-  header: string;
-  accessor: string;
-};
 
 export default function DesktopCard({
   data,
@@ -41,7 +34,7 @@ export default function DesktopCard({
   const [editable, setEditable] = useState(false);
 
   return (
-    <Paper component={Grid} item xs={12}>
+    <Paper component={Grid} item xs={12} {...sx}>
       <Grid container sx={{ alignItems: "center", bgcolor: "secondary.main" }}>
         {columns.map((col: boardColumn, idx: any) => (
           <Grid
@@ -93,8 +86,8 @@ export default function DesktopCard({
         p={1}
       >
         <Grid container>
-          {detailSections.map((section) => (
-            <Grid item xs={section.size}>
+          {detailSections.map((section, idx: number) => (
+            <Grid item xs={section.size} key={idx}>
               <Stack spacing={editable ? 2 : 0}>
                 {section.rows.map((row) => (
                   <row.component

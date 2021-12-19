@@ -14,15 +14,15 @@ export const auth = getAuth();
 
 const FirebaseProvider = ({ children }: { children: any }) => {
   const [user, setUser] = useState<User | null>(null);
-  const [loading, setLoading] = useState(false);
+  // const [loading, setLoading] = useState(false);
   const [error, setError] = useState<Error>();
   useEffect(() => {
-    setLoading(true);
+    // setLoading(true);
     const unsubscribe = onAuthStateChanged(
       auth,
       (user) => {
         setUser(user);
-        setLoading(false);
+        // setLoading(false);
       },
       (error) => setError(error)
     );

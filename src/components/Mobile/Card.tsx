@@ -10,7 +10,7 @@ import {
 } from "@mui/material";
 import { Edit as EditIcon } from "@mui/icons-material";
 import React, { useState } from "react";
-import { GeneralStatus, StatusBoard } from "statusBoard";
+import { StatusBoard } from "statusBoard";
 import SwipeableViews from "react-swipeable-views";
 import TextSection from "../TextSection";
 import DateSection from "../DateSection";
@@ -152,10 +152,10 @@ export default function PlaneBoard({
           index={activeStep}
           onChangeIndex={(step) => setActiveStep(step)}
         >
-          {mappingArr.map((mapping) => (
-            <Grid container style={Object.assign({})}>
+          {mappingArr.map((mapping, idx: number) => (
+            <Grid container style={Object.assign({})} key={idx}>
               {mapping.map((row) => (
-                <Grid item xs={12}>
+                <Grid item xs={12} key={row.accessor}>
                   <row.component
                     readOnly={!editable}
                     header={row.header}

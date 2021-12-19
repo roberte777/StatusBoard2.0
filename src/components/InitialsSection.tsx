@@ -1,8 +1,7 @@
-import { Box, Typography } from "@mui/material";
+import { Typography } from "@mui/material";
 import { getAuth } from "firebase/auth";
-import React, { Dispatch } from "react";
+import React from "react";
 import { useAuthState } from "react-firebase-hooks/auth";
-import { StatusBoard } from "statusBoard";
 import FilledButton from "./FilledButton";
 
 export default function InitialsSection({
@@ -10,12 +9,10 @@ export default function InitialsSection({
   header,
   value,
   setEditedValue,
-  key,
   editedValue,
 }: {
   readOnly?: boolean;
   header: string;
-  key: any;
   setEditedValue: Function;
   value: any;
   editedValue?: any;

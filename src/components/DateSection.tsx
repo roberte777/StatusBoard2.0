@@ -1,20 +1,16 @@
-import { Box, Input, TextField, Typography } from "@mui/material";
-import React, { Dispatch } from "react";
-import { StatusBoard } from "statusBoard";
+import { Input, Typography } from "@mui/material";
+import React from "react";
 import DateTimePicker from "@mui/lab/DateTimePicker";
-import moment from "moment";
 
 export default function DateSection({
   readOnly = true,
   header,
   value,
   setEditedValue,
-  key,
   editedValue,
 }: {
   readOnly?: boolean;
   header: string;
-  key: any;
   setEditedValue: Function;
   value: any;
   editedValue?: any;

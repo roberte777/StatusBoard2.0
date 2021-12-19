@@ -2,13 +2,7 @@ import React, { useState } from "react";
 import Link from "next/link";
 import { TextField, Button, Typography } from "@mui/material";
 import { styled } from "@mui/material/styles";
-import { useAuthState } from "react-firebase-hooks/auth";
-import { auth } from "../../src/firebase/provider";
-import {
-  getAuth,
-  sendPasswordResetEmail,
-  signInWithEmailAndPassword
-} from "firebase/auth";
+import { getAuth, sendPasswordResetEmail } from "firebase/auth";
 
 const LoginForm = styled("form")(({ theme }) => ({
   display: "flex",
@@ -19,18 +13,16 @@ const LoginForm = styled("form")(({ theme }) => ({
 
   "& .MuiTextField-root": {
     margin: theme.spacing(1),
-    width: "300px"
+    width: "300px",
   },
   "& .MuiButtonBase-root": {
-    margin: theme.spacing(2)
-  }
+    margin: theme.spacing(2),
+  },
 }));
 
 const Form = () => {
   // create state variables for each input
   const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [user, loading] = useAuthState(auth);
 
   const handleSubmit = async (e: any) => {
     e.preventDefault();
@@ -41,8 +33,9 @@ const Form = () => {
         // ..
       })
       .catch((error) => {
-        const errorCode = error.code;
-        const errorMessage = error.message;
+        console.error(error);
+        // const errorCode = error.code;
+        // const errorMessage = error.message;
         // ..
       });
   };
@@ -64,7 +57,7 @@ const Form = () => {
         </Button>
       </div>
       <Typography>
-        Don't have an account?{" "}
+        Don&apos;t have an account?
         <Link href={"/Auth/signup"}>
           <a style={{ textDecoration: "none" }}>
             <Button variant="contained" color="primary">

@@ -34,7 +34,7 @@ const AvatarSection: React.FC = () => {
             open={open}
             onClose={() => setAnchorEl(null)}
             MenuListProps={{
-              "aria-labelledby": "basic-button"
+              "aria-labelledby": "basic-button",
             }}
           >
             <MenuItem onClick={() => setAnchorEl(null)}>Profile</MenuItem>
@@ -49,6 +49,7 @@ const AvatarSection: React.FC = () => {
                   })
                   .catch((error) => {
                     // An error happened.
+                    console.log(error);
                   });
               }}
             >

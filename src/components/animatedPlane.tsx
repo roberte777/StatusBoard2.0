@@ -10,12 +10,12 @@ export default function animatedPlane(props: any) {
         width: "100%",
         height: "100%",
         position: "relative",
-        ...props.style
+        ...props.style,
       }}
     >
       <div className={styles.frame}>
         <div className={styles.planeContainer}>
-          <a href="http://customer.io/" target="_blank">
+          <a href="http://customer.io/" target="_blank" rel="noreferrer">
             <svg
               version="1.1"
               xmlns="http://www.w3.org/2000/svg"

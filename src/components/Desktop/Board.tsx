@@ -5,12 +5,6 @@ import Card from "@/components/Desktop/Card";
 import GeneralCard from "./GeneralCard";
 import Loading from "../Loading";
 
-type rows = {
-  component: Function;
-  header: string;
-  accessor: string;
-};
-
 export default function DesktopBoard({
   cards,
   columns,
@@ -60,11 +54,12 @@ export default function DesktopBoard({
             detailSections={generalSections}
           />
 
-          {cards.map((card: StatusBoard) => (
+          {cards.map((card: StatusBoard, idx: number) => (
             <Card
               data={card}
               columns={columns}
               detailSections={detailSections}
+              key={idx}
             />
           ))}
         </>
