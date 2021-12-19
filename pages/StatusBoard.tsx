@@ -44,8 +44,8 @@ export default function StatusBoardPage() {
       });
 
       setStatusBoards(boards);
+      setBoardsLoading(false);
     });
-    setBoardsLoading(false);
 
     return unsubscribe;
   }, []);
@@ -61,8 +61,8 @@ export default function StatusBoardPage() {
       });
       data = { ...data, id: doc.id };
       setGeneralStatus(data as GeneralStatus);
+      setGeneralLoading(false);
     });
-    setGeneralLoading(false);
     return unsub;
   }, []);
 
@@ -279,7 +279,6 @@ export default function StatusBoardPage() {
   );
 
   if (boardsLoading || generalLoading) {
-    console.log("test");
     return <Loading />;
   }
 

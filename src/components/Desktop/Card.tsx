@@ -41,45 +41,45 @@ export default function DesktopCard({
   const [editable, setEditable] = useState(false);
 
   return (
-    <Paper component={Grid} item xs={12} container>
-      {columns.map((col: boardColumn, idx: any) => (
-        <Grid
-          item
-          xs={col.size}
-          key={`${idx}-${col.accessor}`}
-          container
-          alignItems="center"
-          p={1}
-          {...col}
-          sx={{ bgcolor: "secondary.main" }}
-        >
-          {/* add edit mode in here to remove out of detail (no need for duplicate data)? idk */}
-          {col.accessor === "expand" ? (
-            <>
-              {!editable && (
-                <IconButton onClick={() => setEditable(true)}>
-                  <EditIcon />
+    <Paper component={Grid} item xs={12}>
+      <Grid container sx={{ alignItems: "center", bgcolor: "secondary.main" }}>
+        {columns.map((col: boardColumn, idx: any) => (
+          <Grid
+            item
+            xs={col.size}
+            key={`${idx}-${col.accessor}`}
+            container
+            alignItems="center"
+            p={1}
+            {...col}
+          >
+            {/* add edit mode in here to remove out of detail (no need for duplicate data)? idk */}
+            {col.accessor === "expand" ? (
+              <>
+                {!editable && (
+                  <IconButton onClick={() => setEditable(true)} size="small">
+                    <EditIcon />
+                  </IconButton>
+                )}
+                <IconButton
+                  onClick={() => {
+                    setBoardOpen((curr) => !curr);
+                  }}
+                  size="small"
+                >
+                  {!boardOpen ? <ExpandMoreIcon /> : <ExpandLessIcon />}
                 </IconButton>
-              )}
-              <IconButton
-                onClick={() => {
-                  setBoardOpen((curr) => !curr);
-                }}
-                size="small"
-              >
-                {!boardOpen ? <ExpandMoreIcon /> : <ExpandLessIcon />}
-              </IconButton>
-            </>
-          ) : (
-            // grr. why you red
-            <Typography noWrap variant={col.textVariant}>
-              {col?.type == "date"
-                ? moment(data[col.accessor]).format("YYYY/MM/DD")
-                : data[col.accessor]}
-            </Typography>
-          )}
-        </Grid>
-      ))}
+              </>
+            ) : (
+              <Typography noWrap variant={col.textVariant}>
+                {col?.type == "date"
+                  ? moment(data[col.accessor]).format("YYYY/MM/DD")
+                  : data[col.accessor]}
+              </Typography>
+            )}
+          </Grid>
+        ))}
+      </Grid>
       <Collapse
         in={boardOpen}
         unmountOnExit

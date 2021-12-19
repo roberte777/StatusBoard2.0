@@ -41,7 +41,10 @@ export default function DesktopCard({
   return (
     <Grid item xs={12}>
       <Paper>
-        <Grid container sx={{ bgcolor: "secondary.main" }}>
+        <Grid
+          container
+          sx={{ bgcolor: "secondary.main", alignItems: "center" }}
+        >
           <Grid item xs={3} alignItems="center" p={1}>
             <Typography noWrap variant="h4">
               {" "}
@@ -78,7 +81,7 @@ export default function DesktopCard({
           >
             <>
               {!editable && (
-                <IconButton onClick={() => setEditable(true)}>
+                <IconButton onClick={() => setEditable(true)} size="small">
                   <EditIcon />
                 </IconButton>
               )}

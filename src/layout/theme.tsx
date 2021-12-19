@@ -6,15 +6,16 @@ const generateTheme = (mode: PaletteMode) => ({
     mode,
     ...(mode === "light"
       ? {
-          primary: { main: "#DB5461" },
+          primary: { main: "#BB2736" },
           // secondary: { main: "#FFD9CE" },
           secondary: { main: "#8894AA" },
 
-          action: { active: "#2FD3C2" },
+          action: { active: "#2F4858" },
+          // action: { active: "#395c9d" },
         }
       : {
-          primary: { main: "#22A093" },
-          secondary: { main: "#593C8F" },
+          primary: { main: "#BB2736" },
+          secondary: { main: "#2F4858" },
           action: { active: "#DA5260" },
         }),
   },

@@ -45,6 +45,7 @@ export default function ResponsiveDrawer(props: any) {
       <AppBar
         position="fixed"
         sx={{
+          bgcolor: "primary.main",
           width: {
             [breakpoint]: desktopDrawerOpen
               ? `calc(100% - ${drawerWidth}px)`
