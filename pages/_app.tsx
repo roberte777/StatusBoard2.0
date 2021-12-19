@@ -25,40 +25,49 @@ interface Props {
 }
 const Auth = ({
   children,
-  roles = [],
+  pageRoles = [],
   router,
 }: {
   children: React.ReactNode;
-  roles: string[];
+  pageRoles: string[];
   router: NextRouter;
 }) => {
   const [user, loading] = useAuthState(getAuth());
   const [rolesLoading, setRolesLoading] = useState(true);
-  const [permitted, setPermitted] = useState(false);
+  const [roles, setRoles] = useState<any>([]);
   useEffect(() => {
-    if (!loading && user) {
-      if (roles.length === 0) setPermitted(true);
-      user.getIdTokenResult().then(async (idTokenResult) => {
-        roles.forEach((role) => {
-          if (idTokenResult.claims[role]) {
-            setPermitted(true);
-          }
+    const getRoles = () => {
+      setRolesLoading(true);
+      if (user) {
+        user.getIdTokenResult().then(async (idTokenResult) => {
+          setRoles(idTokenResult.claims);
         });
-        setRolesLoading(false);
-      });
-    } else if (!loading && !user) {
+      }
       setRolesLoading(false);
-    }
-  }, [user]);
+    };
+    getRoles();
+  }, [user, loading]);
 
   if (loading || rolesLoading) {
     return <Loading />;
   } else if (!user) {
     router.replace("/Auth/login");
     return <div>Login</div>;
-  } else if (!permitted) {
-    return <div>Not Permitted</div>;
   } else {
+    let permitted = false;
+    if (roles.length === 0) permitted = true;
+    // console.log(roles);
+    // console.log(roles[role]);
+    pageRoles.forEach((role: any) => {
+      console.log(roles);
+      if (roles[role]) {
+        permitted = true;
+      }
+    });
+
+    if (!permitted) {
+      return <>Not Permitted</>;
+    }
     return <div>{children}</div>;
   }
 };
@@ -70,7 +79,7 @@ function MyApp({ Component, pageProps, router }: Props) {
         <LocalizationProvider dateAdapter={DateAdapter}>
           <Layout title={Component.title} noPadding={Component.noPadding}>
             {Component.auth ? (
-              <Auth roles={Component.roles} router={router}>
+              <Auth pageRoles={Component.roles} router={router}>
                 <Component {...pageProps} />
               </Auth>
             ) : (

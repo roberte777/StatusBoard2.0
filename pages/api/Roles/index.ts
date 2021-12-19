@@ -33,7 +33,6 @@ export default async (req: Request, res: Response) => {
         );
         break;
       default:
-        console.log("test");
         break;
     }
   } catch (e) {

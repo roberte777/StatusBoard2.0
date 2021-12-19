@@ -311,3 +311,5 @@ export default function StatusBoardPage() {
   );
 }
 StatusBoardPage.title = "Status Board";
+StatusBoardPage.auth = true;
+StatusBoardPage.roles = ["employee", "admin"];
