@@ -153,13 +153,7 @@ export default function PlaneBoard({
           onChangeIndex={(step) => setActiveStep(step)}
         >
           {mappingArr.map((mapping, idx: number) => (
-            <Grid
-              container
-              style={Object.assign({})}
-              key={idx}
-              spacing={2}
-              sx={{ display: activeStep !== idx ? "hidden" : "block" }}
-            >
+            <Grid container style={Object.assign({})} key={idx} spacing={2}>
               {mapping.map((row) => (
                 <Grid item xs={12} key={row.accessor}>
                   <row.component
