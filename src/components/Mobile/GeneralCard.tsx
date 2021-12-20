@@ -11,7 +11,6 @@ import {
 import { Edit as EditIcon } from "@mui/icons-material";
 import React, { useState } from "react";
 import { GeneralStatus } from "statusBoard";
-import SwipeableViews from "react-swipeable-views";
 import TextSection from "../TextSection";
 import DateSection from "../DateSection";
 import InitialsSection from "../InitialsSection";
