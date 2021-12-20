@@ -44,7 +44,8 @@ const Form = () => {
         })
         .then(() => {
           setLoggingIn(false);
-          router.back();
+          // router.back();
+          router.push("/");
         });
     } catch (err) {
       // console.log(err);
