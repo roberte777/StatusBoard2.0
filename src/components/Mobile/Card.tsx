@@ -11,7 +11,6 @@ import {
 import { Edit as EditIcon } from "@mui/icons-material";
 import React, { useState } from "react";
 import { StatusBoard } from "statusBoard";
-import SwipeableViews from "react-swipeable-views";
 import TextSection from "../TextSection";
 import DateSection from "../DateSection";
 import InitialsSection from "../InitialsSection";
@@ -19,6 +18,8 @@ import Loading from "../Loading";
 import { doc } from "@firebase/firestore";
 import { db } from "@/firebase/provider";
 import { updateDoc } from "firebase/firestore";
+import "swiper/css";
+import { Swiper, SwiperSlide } from "swiper/react";
 
 type boardMapping = {
   header: string;
@@ -147,33 +148,32 @@ export default function PlaneBoard({
         </Typography>
       </Box>
       <Divider sx={{ width: "99%", margin: "0 auto", mb: 1 }} />
-      <Box sx={{ pl: 1, pr: 1 }}>
-        <SwipeableViews
-          index={activeStep}
-          onChangeIndex={(step) => setActiveStep(step)}
-        >
+      <Box sx={{ pl: 1, pr: 1, width: "100vw" }}>
+        <Swiper onSlideChange={(swiper) => setActiveStep(swiper.activeIndex)}>
           {mappingArr.map((mapping, idx: number) => (
-            <Grid container style={Object.assign({})} key={idx} spacing={2}>
-              {mapping.map((row) => (
-                <Grid item xs={12} key={row.accessor}>
-                  <row.component
-                    readOnly={!editable}
-                    header={row.header}
-                    value={data[row.accessor]}
-                    editedValue={edits[row.accessor]}
-                    setEditedValue={(value: typeof row.accessor) =>
-                      setEdits((curr: any) => ({
-                        ...curr,
-                        [row.accessor]: value,
-                      }))
-                    }
-                    key={row.accessor}
-                  />
-                </Grid>
-              ))}
-            </Grid>
+            <SwiperSlide>
+              <Grid container key={idx} spacing={2}>
+                {mapping.map((row) => (
+                  <Grid item xs={12} key={row.accessor}>
+                    <row.component
+                      readOnly={!editable}
+                      header={row.header}
+                      value={data[row.accessor]}
+                      editedValue={edits[row.accessor]}
+                      setEditedValue={(value: typeof row.accessor) =>
+                        setEdits((curr: any) => ({
+                          ...curr,
+                          [row.accessor]: value,
+                        }))
+                      }
+                      key={row.accessor}
+                    />
+                  </Grid>
+                ))}
+              </Grid>
+            </SwiperSlide>
           ))}
-        </SwipeableViews>
+        </Swiper>
         {editable && (
           <Button
             onClick={async () => {
