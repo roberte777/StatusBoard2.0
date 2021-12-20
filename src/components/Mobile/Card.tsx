@@ -151,8 +151,8 @@ export default function PlaneBoard({
       <Box sx={{ pl: 1, pr: 1, width: "100vw" }}>
         <Swiper onSlideChange={(swiper) => setActiveStep(swiper.activeIndex)}>
           {mappingArr.map((mapping, idx: number) => (
-            <SwiperSlide>
-              <Grid container key={idx} spacing={2}>
+            <SwiperSlide key={idx}>
+              <Grid container key={idx + 10} spacing={2}>
                 {mapping.map((row) => (
                   <Grid item xs={12} key={row.accessor}>
                     <row.component
