@@ -101,10 +101,10 @@ export default function DesktopCard({
           xs={12}
           p={1}
         >
-          <Grid container>
+          <Grid container spacing={2}>
             {detailSections.map((section, idx: number) => (
               <Grid item xs={section.size} key={idx}>
-                <Stack spacing={editable ? 2 : 0}>
+                <Stack spacing={2}>
                   {section.rows.map((row) => (
                     <row.component
                       readOnly={!editable}

@@ -88,7 +88,7 @@ export default function DesktopCard({
         <Grid container>
           {detailSections.map((section, idx: number) => (
             <Grid item xs={section.size} key={idx}>
-              <Stack spacing={editable ? 2 : 0}>
+              <Stack spacing={editable ? 2 : 1}>
                 {section.rows.map((row) => (
                   <row.component
                     readOnly={!editable}
