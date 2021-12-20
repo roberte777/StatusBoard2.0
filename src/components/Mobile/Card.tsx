@@ -140,20 +140,20 @@ export default function PlaneBoard({
           {data.tailNumber}
           <IconButton
             onClick={() => setEditable(!editable)}
-            sx={{ float: "right" }}
+            sx={{ float: "right", p: 0 }}
           >
             <EditIcon />
           </IconButton>
         </Typography>
       </Box>
-      <Divider sx={{ mb: 2 }} />
+      <Divider sx={{ width: "99%", margin: "0 auto", mb: 1 }} />
       <Box sx={{ pl: 1, pr: 1 }}>
         <SwipeableViews
           index={activeStep}
           onChangeIndex={(step) => setActiveStep(step)}
         >
           {mappingArr.map((mapping, idx: number) => (
-            <Grid container style={Object.assign({})} key={idx}>
+            <Grid container style={Object.assign({})} key={idx} spacing={2}>
               {mapping.map((row) => (
                 <Grid item xs={12} key={row.accessor}>
                   <row.component

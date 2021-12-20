@@ -20,6 +20,7 @@ export default async (req: Request, res: Response) => {
                 ...oldCustomClaims,
                 [role]: !remove,
               });
+
               if (idx === array.length - 1) resolve(null);
             }
           );

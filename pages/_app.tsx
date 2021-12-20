@@ -36,14 +36,19 @@ const Auth = ({
   const [rolesLoading, setRolesLoading] = useState(true);
   const [roles, setRoles] = useState<any>([]);
   useEffect(() => {
-    const getRoles = () => {
+    const getRoles = async () => {
       setRolesLoading(true);
       if (user) {
-        user.getIdTokenResult().then(async (idTokenResult) => {
-          setRoles(idTokenResult.claims);
-        });
+        await user
+          .getIdTokenResult()
+          .then(async (idTokenResult) => {
+            setRoles(idTokenResult.claims);
+          })
+          .finally(() => setRolesLoading(false));
+      } else {
+        setRoles([]);
+        setRolesLoading(false);
       }
-      setRolesLoading(false);
     };
     getRoles();
   }, [user, loading]);
