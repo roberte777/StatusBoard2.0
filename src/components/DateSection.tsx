@@ -28,7 +28,8 @@ export default function DateSection({
             readOnly={readOnly}
             sx={{
               width: "100%",
-              ...(readOnly && { pt: 0.2, pb: 0 }),
+              pt: 0.2,
+              pb: 0,
               pl: 0.5,
             }}
           />

@@ -27,7 +27,8 @@ export default function TextSection({
         onChange={({ target }) => setEditedValue(target.value)}
         sx={{
           width: "100%",
-          ...(readOnly && { pt: 0.15, pb: 0 }),
+          pt: 0.15,
+          pb: 0,
           pl: 0.5,
         }}
       />
