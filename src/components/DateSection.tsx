@@ -16,8 +16,8 @@ export default function DateSection({
   editedValue?: any;
 }) {
   return (
-    <Typography>
-      {header}:{" "}
+    <Typography sx={{ display: "flex" }}>
+      <div style={{ whiteSpace: "nowrap" }}>{header}: </div>
       <DateTimePicker
         renderInput={(props: any) => (
           <Input
@@ -26,6 +26,11 @@ export default function DateSection({
             multiline
             disableUnderline={readOnly}
             readOnly={readOnly}
+            sx={{
+              width: "100%",
+              ...(readOnly && { pt: 0.2, pb: 0 }),
+              pl: 0.5,
+            }}
           />
         )}
         value={editedValue || new Date(value)}
