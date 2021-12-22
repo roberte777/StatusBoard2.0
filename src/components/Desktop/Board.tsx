@@ -24,6 +24,10 @@ export default function DesktopBoard({
 }) {
   return (
     <Grid container sx={sx} gap={2}>
+      <GeneralCard
+        data={general as GeneralStatus}
+        detailSections={generalSections}
+      />
       <Paper
         component={Grid}
         item
@@ -49,11 +53,6 @@ export default function DesktopBoard({
         <Loading /> //placeholder
       ) : (
         <>
-          <GeneralCard
-            data={general as GeneralStatus}
-            detailSections={generalSections}
-          />
-
           {cards.map((card: StatusBoard, idx: number) => (
             <Card
               data={card}

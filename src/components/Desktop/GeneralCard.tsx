@@ -44,16 +44,6 @@ export default function DesktopCard({
               General Status
             </Typography>
           </Grid>
-          <Grid item xs={2} alignItems="center" p={1} sx={{ display: "flex" }}>
-            <Typography noWrap>
-              {moment(data.fd).format("YYYY/MM/DD")}
-            </Typography>
-          </Grid>
-          <Grid item xs={2} alignItems="center" p={1} sx={{ display: "flex" }}>
-            <Typography noWrap>
-              {moment(data.fuelFarmDate).format("YYYY/MM/DD")}
-            </Typography>
-          </Grid>
           <Grid
             item
             xs={4}
@@ -63,6 +53,16 @@ export default function DesktopCard({
             sx={{ display: "flex" }}
           >
             <Typography noWrap>{data.notes}</Typography>
+          </Grid>
+          <Grid item xs={2} alignItems="center" p={1} sx={{ display: "flex" }}>
+            {/* <Typography noWrap>
+              {moment(data.fd).format("YYYY/MM/DD")}
+            </Typography> */}
+          </Grid>
+          <Grid item xs={2} alignItems="center" p={1} sx={{ display: "flex" }}>
+            {/* <Typography noWrap>
+              {moment(data.fuelFarmDate).format("YYYY/MM/DD")}
+            </Typography> */}
           </Grid>
           <Grid
             item
