@@ -1,6 +1,13 @@
 import React, { useState } from "react";
 import Link from "next/link";
-import { TextField, Button, Typography } from "@mui/material";
+import {
+  TextField,
+  Button,
+  Typography,
+  Alert,
+  Collapse,
+  Snackbar,
+} from "@mui/material";
 import { styled } from "@mui/material/styles";
 import {
   createUserWithEmailAndPassword,
@@ -8,6 +15,8 @@ import {
   updateProfile,
 } from "firebase/auth";
 import { useAuthState } from "react-firebase-hooks/auth";
+import { FirebaseError } from "@firebase/util";
+import router from "next/router";
 
 const SignupForm = styled("form")(({ theme }) => ({
   display: "flex",
@@ -34,6 +43,7 @@ const Form = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [creatingUser, setCreatingUser] = useState(false);
+  const [alert, setAlert] = useState<Object>({});
 
   const handleSubmit = async (e: any) => {
     e.preventDefault();
@@ -43,10 +53,14 @@ const Form = () => {
       .then(async () => {
         await updateProfile(auth.currentUser!, {
           displayName: `${firstName} ${middleName} ${lastName}`,
-        }).then(() => setCreatingUser(false));
+        }).then(() => {
+          router.push("/");
+          setCreatingUser(false);
+        });
       })
-      .catch((error) => {
-        console.error(error);
+      .catch((error: FirebaseError) => {
+        setAlert({ type: "error", message: error.message });
+        setCreatingUser(false);
         // const errorCode = error.code;
         // const errorMessage = error.message;
         // ..
@@ -109,6 +123,31 @@ const Form = () => {
           </a>
         </Link>
       </Typography>
+      <Snackbar
+        open={Object.keys(alert).length > 0}
+        autoHideDuration={6000}
+        onClose={(event?: React.SyntheticEvent | Event, reason?: string) => {
+          if (reason === "clickaway") {
+            return;
+          }
+
+          setAlert({});
+        }}
+      >
+        <Alert
+          onClose={(event?: React.SyntheticEvent | Event, reason?: string) => {
+            if (reason === "clickaway") {
+              return;
+            }
+
+            setAlert({});
+          }}
+          severity="error"
+          sx={{ width: "100%" }}
+        >
+          {JSON.stringify(alert!.message)}
+        </Alert>
+      </Snackbar>
     </SignupForm>
   );
 };
