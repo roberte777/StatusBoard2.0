@@ -17,6 +17,7 @@ import {
 import { useAuthState } from "react-firebase-hooks/auth";
 import { FirebaseError } from "@firebase/util";
 import router from "next/router";
+type Alert = { type: string; message: string };
 
 const SignupForm = styled("form")(({ theme }) => ({
   display: "flex",
@@ -43,7 +44,7 @@ const Form = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [creatingUser, setCreatingUser] = useState(false);
-  const [alert, setAlert] = useState<Object>({});
+  const [alert, setAlert] = useState<Alert>({} as Alert);
 
   const handleSubmit = async (e: any) => {
     e.preventDefault();
@@ -131,7 +132,7 @@ const Form = () => {
             return;
           }
 
-          setAlert({});
+          setAlert({} as Alert);
         }}
       >
         <Alert
@@ -140,7 +141,7 @@ const Form = () => {
               return;
             }
 
-            setAlert({});
+            setAlert({} as Alert);
           }}
           severity="error"
           sx={{ width: "100%" }}
