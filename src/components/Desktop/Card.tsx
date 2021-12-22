@@ -76,9 +76,6 @@ export default function DesktopCard({
       <Collapse
         in={boardOpen}
         unmountOnExit
-        sx={{
-          backgroundColor: "rgba(127,127, 127, .15)",
-        }}
         component={Grid}
         //@ts-ignore
         item

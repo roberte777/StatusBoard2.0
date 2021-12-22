@@ -23,7 +23,12 @@ export default function sidebar({
 }) {
   return (
     <div>
-      <Toolbar sx={{ justifyContent: "center", maxHeight: "100%" }}>
+      <Toolbar
+        sx={{
+          justifyContent: "center",
+          maxHeight: "100%",
+        }}
+      >
         <h3 style={{ maxHeight: "100%" }}>
           {process.env.NEXT_PUBLIC_PAGE_NAME}
         </h3>

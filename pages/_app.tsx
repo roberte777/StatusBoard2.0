@@ -60,9 +60,8 @@ const Auth = ({
     return <div>Login</div>;
   } else {
     let permitted = false;
+    console.log(roles);
     if (roles.length === 0) permitted = true;
-    // console.log(roles);
-    // console.log(roles[role]);
     pageRoles.forEach((role: any) => {
       console.log(roles);
       if (roles[role]) {

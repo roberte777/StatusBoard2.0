@@ -5,24 +5,22 @@ const generateTheme = (mode: PaletteMode) => ({
     mode,
     ...(mode === "light"
       ? {
-          primary: { main: "#BB2736" },
-          // secondary: { main: "#FFD9CE" },
-          secondary: { main: "#8894AA" },
-
+          primary: { main: "#406882" },
+          secondary: { main: "#6998AB" },
           action: { active: "#2F4858" },
-          // action: { active: "#395c9d" },
         }
       : {
-          primary: { main: "#BB2736" },
-          secondary: { main: "#2F4858" },
-          action: { active: "#DA5260" },
+          primary: { main: "#404B69" },
+          secondary: { main: "#00818A" },
+          action: { active: "#DBEDF3" },
         }),
   },
   components: {
     MuiPaper: {
       styleOverrides: {
         root: {
-          // backgroundColor: "#dd858c"
+          ...(mode === "light" ? { backgroundColor: "#EEF2FF" } : null),
+          // { backgroundColor: "#3F3351" }
         },
       },
     },
