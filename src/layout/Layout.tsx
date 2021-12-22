@@ -140,6 +140,7 @@ export default function ResponsiveDrawer(props: any) {
         sx={{
           flexGrow: 1,
           p: noPadding ? 0 : 3,
+          minHeight: "100vh",
           // backgroundColor: mode === "light" ? null : "#101010",
         }}
         className="test"
