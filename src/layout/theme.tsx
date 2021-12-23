@@ -1,6 +1,9 @@
 type PaletteMode = "light" | "dark";
 
 const generateTheme = (mode: PaletteMode) => ({
+  typography: {
+    fontSize: 16,
+  },
   palette: {
     mode,
     ...(mode === "light"
