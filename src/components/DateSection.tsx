@@ -32,6 +32,7 @@ export default function DateSection({
               pb: 0,
               pl: 0.5,
             }}
+            autoFocus={false}
           />
         )}
         value={editedValue || new Date(value)}
