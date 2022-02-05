@@ -1,10 +1,15 @@
+This is a simple version of an aviation management dashboard I made for an B&C Aviation company. 
+The live example of this application can be found here: https://status-board2-0.vercel.app/
+
+
 This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 
 ## Getting Started
-
+To have this project work on your own machine, you will need to implement your own firebase project API keys in the .env file. 
 First, run the development server:
 
 ```bash
+npm i
 npm run dev
 # or
 yarn dev
