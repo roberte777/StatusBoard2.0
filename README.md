@@ -1,4 +1,4 @@
-This is a simple version of an aviation management dashboard I made for an B&C Aviation company. 
+This is a simple version of an aviation management dashboard I made for B&C Aviation company. 
 The live example of this application can be found here: https://status-board2-0.vercel.app/
 
 
