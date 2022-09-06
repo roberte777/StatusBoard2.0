@@ -6,7 +6,13 @@ This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next
 
 ## Images
 ### Home screen
- ![Uploading image.png…]()
+<img width="1438" alt="image" src="https://user-images.githubusercontent.com/33569440/188525455-b6acb0bd-9d62-4ac6-ab48-2c342cfb1f49.png">
+### Status Board
+<img width="1438" alt="image" src="https://user-images.githubusercontent.com/33569440/188525512-d6420530-cedf-4882-ba91-426f9ca2295f.png">
+### Editing Cards
+<img width="1438" alt="image" src="https://user-images.githubusercontent.com/33569440/188525549-0417b2bd-cd0a-413a-bcf4-963572b6b558.png">
+### User administration
+<img width="1438" alt="image" src="https://user-images.githubusercontent.com/33569440/188525589-342348ce-0e3e-4a76-b3cd-e4577a62483f.png">
 
 
 ## Getting Started
