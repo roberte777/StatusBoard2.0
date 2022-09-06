@@ -4,6 +4,11 @@ The live example of this application can be found here: https://status-board2-0.
 
 This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 
+## Images
+### Home screen
+ ![Uploading image.png…]()
+
+
 ## Getting Started
 To have this project work on your own machine, you will need to implement your own firebase project API keys in the .env file. 
 First, run the development server:
